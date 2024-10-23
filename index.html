@@ -1,1 +1,290 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>특가 모음</title><style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+      background-color: #fafafa;
+    }
+    .container {
+      width: 100%;
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 10px;
+      column-count: 6;
+      column-gap: 10px;
+    }
+    .card {
+      position: relative;
+      break-inside: avoid;
+      background-color: white;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      width: 100%;
+      border: 2px solid transparent;
+    }
+    .card.expanded {
+      border: 2px solid red;
+      transform: scale(1.05);
+      animation: blink-border 1s infinite;
+      z-index: 10;
+    }
+    @keyframes blink-border {
+      0% { border-color: red; }
+      50% { border-color: transparent; }
+      100% { border-color: red; }
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .card p {
+      padding: 15px;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .card p.excerpt {
+      font-size: 14px;
+      color: #333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+    .card-content {
+      display: none;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+    .card-content img {
+      margin-top: 10px;
+    }
+    .card.expanded .excerpt {
+      display: none;
+    }
+    .card.expanded .card-content {
+      display: block;
+    }
+    @media (max-width: 1800px) { .container { column-count: 5; } }
+    @media (max-width: 1500px) { .container { column-count: 4; } }
+    @media (max-width: 1200px) { .container { column-count: 3; } }
+    @media (max-width: 900px) { .container { column-count: 2; } }
+    @media (max-width: 600px) {
+      .container { column-count: 1; }
+      body { font-size: 12px; }
+      .card p.excerpt { font-size: 12px; }
+    }
+  </style></head><body><div class="container">
+      <div id="card-0" class="card" onclick="toggleCard(0)">
+        <img src="https://coresos-phinf.pstatic.net/a/37b35a/6_309Ud018svc7mjstvvpixsa_us905w.png" alt="Post image">
+        <p class="excerpt">📢부산출발 하노이 하롱베이 골프 패키지📢<br>📢골프 54H - 3박5일📢<br>------------------------------------------------<br...</p>
+        <div class="card-content">
+          <p>📢부산출발 하노이 하롱베이 골프 패키지📢<br>📢골프 54H - 3박5일📢<br>------------------------------------------------<br>📌적용날짜 : 24년 11월 ~ 25년 3월<br>📌출발인원 : "2명" 부터~<br>📌1인요금 : 1,130,000원~<br>------------------------------------------------<br>[포함사항]<br>💚왕복항공료, 유류+텍스<br>💚FLC호텔 3박 (골프뷰-2인1실기준)<br>💚그린피+전동카트+캐디피 18홀*3회<br>💚조식 및 클럽중식<br>💚석식 2회 포함!<br>[불포함사항]<br>💚송영비별도<br>💚캐디팁(18홀당 1인 $20 또는 50만동)<br>**호텔 및 골프장에서 동으로 환전가능합니다.<br>💚석식 2회<br>💚추천선택관광비용<br>💚연휴 및 연말,연시 골프 추가요금<br>💚호텔 써차지<br>(※기간 별 상이하므로 예약 시 문의부탁드립니다.)<br>--------------------------------------------------<br>✈️ 항공스케줄 ✈️<br>부산-하노이  VJ981  08:00-10:50<br>하노이-부산  VJ982  01:00-07:00<br>--------------------------------------------------<br>⭕에어텔/인센/골프 견적가능⭕<br>♡NFTour: ☎ 051-710–8600<br>오늘도 좋은 하루 되세요~!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37b3d9/3_30aUd018svc15w0bmcydwf91_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b322/3_50aUd018svc9mi1okemt1iu_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b3ci/6_h0aUd018svc1vv82qbubfco9_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b300/6_j0aUd018svcy3qje2y4t964_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b3h4/6_e0aUd018svc1ew8kehqon0tx_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b3b0/e_20aUd018svc1l7zcytoqk13u_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b399/e_60aUd018svcowyt38iz0oom_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b38i/e_40aUd018svc1fus96u293ezf_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37b3d8/e_50aUd018svc16ru5dkbtdxkp_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-1" class="card" onclick="toggleCard(1)">
+        <img src="https://coresos-phinf.pstatic.net/a/37ah0a/8_ffcUd018svc19trd0ao90u7w_us905w.jpg" alt="Post image">
+        <p class="excerpt">📢호치민+무이네 사막투어 - 3박5일<br>📌적용날짜 : 24년 11월 ~ 25년 3웡<br>📌매주 수,목,금,토 출발<br>📌최소출발인원 : 6명부터~<br>👉판매가 :...</p>
+        <div class="card-content">
+          <p>📢호치민+무이네 사막투어 - 3박5일<br>📌적용날짜 : 24년 11월 ~ 25년 3웡<br>📌매주 수,목,금,토 출발<br>📌최소출발인원 : 6명부터~<br>👉판매가 : 449,000원~<br>------------------------------------------------------<br>✔️전신마사지 1시간 포함<br>✔️호치민 시티투어(핑크성당, 통일궁, 전쟁박물관, 우체국)<br>✔️무이네 사막투어<br>✔️동양의 사막에서 인생샷 가능!<br>-----------------------------------------------------<br>✈️ 항공스케줄 ✈️-좌석보유!<br>부산-호치민 VJ869 08:00-11:40<br>호치민-부산 VJ868 00:10-07:00<br>------------------------------------------------------<br>  선착순 마감이니 서둘러 문의 부탁드립니다.<br>💁‍♀️언제나 열심히 최선을 다하는 엔에프투어가 되겠습니다~!!!<br>⭕에어텔/인센/골프 견적가능⭕<br>엔에프투어 ☎ : 051-710-8600</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37ahje/8_gfcUd018svcabi5s4khp1e_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ah3e/8_ifcUd018svc1lpenvz44kmmo_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-2" class="card" onclick="toggleCard(2)">
+        <img src="https://coresos-phinf.pstatic.net/a/37ag1e/a_44cUd018svclgts38ixqylm_us905w.png" alt="Post image">
+        <p class="excerpt">👍태국의 모든 것을 품은곳!<br>청정힐링의 지역!<br>"북방의 장미" 라고 불리는 치앙마이<br>✈️태국 치앙마이+치앙라이+골든트라이앵글<br>☞24년 12월 19일 ~ 25...</p>
+        <div class="card-content">
+          <p>👍태국의 모든 것을 품은곳!<br>청정힐링의 지역!<br>"북방의 장미" 라고 불리는 치앙마이<br>✈️태국 치앙마이+치앙라이+골든트라이앵글<br>☞24년 12월 19일 ~ 25년 3월 26일<br>☞최소출발 : 4명부터~<br>&lt;상품가&gt;<br>📌실속 : 659,000원~<br>📌품격 : 959,000원~<br>💚실속<br>-4성급 호텔<br>-골든트라이앵글<br>-태국 전통 마사지 2시간 포함<br>-1방당 망고도시락+치앙마이 토종꿀100g 증정<br>💚품격(노팁/노옵션)<br>-5성급 호텔<br>-골든트라이앵글<br>-태국 전통 마사지 2시간 포함<br>-나이트시티우어+코끼리정글투어<br>-룽아룬온천<br>-1방당 망고도시락+치앙마이 토종꿀100g 증정<br>━━━━━━━━━━━━━<br>⭕에어텔/인센/골프 견적가능⭕<br>**전화문의**<br>☎ 051-710–8600<br>많은 문의 부탁드립니다.!<br>감사합니다.!♥<br>━━━━━━━━━━━━</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37ag5j/3_h4dUd018svc1bf9lg8vhc5ke_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ag9d/3_i4dUd018svc1a7xmkvsm48g0_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37agi0/3_j4dUd018svcp5umu0vyn9t5_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-3" class="card" onclick="toggleCard(3)">
+        <img src="https://coresos-phinf.pstatic.net/a/37ag03/b_a45Ud018svcyi2uop6kh88z_us905w.png" alt="Post image">
+        <p class="excerpt">✈️여러번 가도 좋은 휴양&amp;관광 최고의 도시!<br>✈️태국 방콕+파타야<br>👍방콕+파타야 실속/품격 패키지 3박5일<br>👍10월 27일 ~ 25년 3월 31일<br...</p>
+        <div class="card-content">
+          <p>✈️여러번 가도 좋은 휴양&amp;관광 최고의 도시!<br>✈️태국 방콕+파타야<br>👍방콕+파타야 실속/품격 패키지 3박5일<br>👍10월 27일 ~ 25년 3월 31일<br>👍최소출발 : 4명부터~<br>***제주항공 10/30 선발권***<br>&lt;상품가&gt;<br>📌실속 : 599,000원~<br>📌품격 : 859,000원~<br>💚실속<br>-준특급 3박<br>-파타야 산호섬투어<br>-수상시장 플로팅마켓, 황금절벽사원<br>-코끼리트래킹<br>-태국 전통 마사지 1시간<br>-열대과일제공!<br>💚품격(노팁/노옵션/특급호텔)<br>-전 일정 5성급 호텔!!!<br>-파타야 럭셔리 요트투어 (스노쿨링,줄낚시), 바나나보트 탑승<br>-파타야 산호섬투어<br>-수상시장 플로팅마켓, 황금절벽사원<br>-코끼리트래킹, 태국 전통 마사지 2시간<br>-방콕 핫플 야시장 아시아티크투어<br>-방콕 욧시암 크루즈 탑승투어<br>(맥주, 음료, 과일 무제한제공)<br>━━━━━━━━━━━━━<br>⭕에어텔/인센/골프 견적가능⭕<br>**전화문의**<br>☎ 051-710–8600<br>~~오늘도 행복하고 즐거운 하루 되세요~!<br>감사합니다.!♥<br>━━━━━━━━━━━━━</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37aggc/b_b45Ud018svct8ys4fj030q8_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ag1c/b_d45Ud018svck1bprku2cdu0_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ag1f/b_e45Ud018svcxhqv3d4gz9q9_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-4" class="card" onclick="toggleCard(4)">
+        <img src="https://coresos-phinf.pstatic.net/a/37adje/f_cc7Ud018svc183bb38nc8o6c_us905w.jpg" alt="Post image">
+        <p class="excerpt">이제는 아프리카로 떠날 시간입니다.<br>더 늦기 전에 신비로운 아프리카의 자연을 경험할 수 있는<br>특별한 기회를 놓치지 마세요!<br>✈️정통리얼!! 고품격 아프리카 6개국 ...</p>
+        <div class="card-content">
+          <p>이제는 아프리카로 떠날 시간입니다.<br>더 늦기 전에 신비로운 아프리카의 자연을 경험할 수 있는<br>특별한 기회를 놓치지 마세요!<br>✈️정통리얼!! 고품격 아프리카 6개국 12일-ET✈️<br>♡에티오피아항공 비즈니스석 탑승(4구간)<br>♡전일정 노쇼핑<br>♡아프리카 전문 인솔자 동행<br>♡리얼사파리투어 &amp; 킬리만자로 마운틴<br>♡세계3대폭포, 빅토리아폭포<br>♡아프리카의 유럽, 케이프타운<br>📢 대자연의 신비로움 그 자체인 아프리카!!<br>📢 노쇼핑! 전문인솔자 동행으로 보다 편리하고 안전한 여행!!<br>★출발일자★<br>1월 6일(6명 /♡모객집중♡)<br>1월 13일(16명 /마감)<br>1월 20일(4명 /모객중)<br>1월 27일(2명 /모객중)<br>※2~3월 매주 월요일 출발로 비즈니스석 확보 완료!<br>※최소 출발인원 : 10명이상<br>★여행국가: 6개국★<br>케냐-탄자니아-짐바브웨-잠비아-보츠와나-남아공<br>★상품가★<br>1인 1,450만원 (단, 1/27 1,489만원)<br>★포함사항★<br>-국제선 항공권(인천-아프리카 IN/OUT 구간 비지니스석 탑승)<br>-전일정 특급~1급 호텔 및 롯지 숙박(2인1실),<br>-일정표상의 관광지 입장료 및 식사<br>-아루샤-세렝게티 편도 경비행기<br>-특식 3회(야마쵸마 특식 및 사파리캣츠쇼, 정글정션 뷔페식, 케이프타운 랍스터)<br>-아프리카 전문 인솔가이드 동행<br>★불포함사항★<br>-케냐 ETA 비용(1인당 $36 / 대행시 1인 8만원)<br>-탄자니아&amp;짐바브웨 도착 비자 비용(1인 $100)<br>-기사/가이드팁등 공동경비(15명이상$150, 15명미만 $215)<br>-호텔1인실 사용료(140만원)<br>★비교불가!! 상품특징★<br>📌에티오피아항공 4구간 비즈니스석 탑승!<br>(인천-아디스아바바-나이로비, 케이프타운-아디스아바바-인천)<br>📌아시아나항공 약 16,000 마일 적립가능!<br>📌케냐 1회 입국으로 번거로운 출입국 과정 감소!<br>📌정통 리얼 사파리 투어 : 세렝게티/응고롱고로/초베 국립공원<br>📌만년설의 전설을 간직한 킬리만자로산 트래킹(2시간)<br>📌세계 3대 폭포 중 하나인 빅토리아폭포(짐바브웨&amp;잠비아)<br>📌노을이 지는 아름다운 잠베지강의 선셋크루즈 (음료 무제한제공)<br>📌아프리카속 유럽풍의 살아보고 싶은 도시, 케이프타운!<br>📌전일정 노쇼핑, 전문인솔자 동행<br>========================================<br>⭕담당자 / 네이트온⭕<br>▶이정민 실장 (nftour03@nate.com)<br>▶반혜진 차장 (nftour02@nate.com)<br>▶김강민 과장 (nftour01@nate.com)<br>**네이트온으로 문의주시면 자세한 상담 도와드리겠습니다**<br>[문의전화]<br>엔에프투어 ☎ : 051-710-8600<br>=========================================</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37ahb5/4_8ciUd018svcrcq1k6iz5go_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ahj2/e_3ciUd018svc1l8yifeer76p5_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37adgd/f_6c7Ud018svc10c5o9dyb6dqg_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37adig/f_7c7Ud018svclj74x8qn41he_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ad8i/f_9c7Ud018svcyya5afwbnnqz_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ada3/f_ac7Ud018svc751tymqvklii_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37adj4/f_bc7Ud018svc15odf3h8h6i6d_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37ad23/a_2c8Ud018svc1n8fhmukhw3gf_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37add6/a_4c8Ud018svc1gz5ilw2zcw6b_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-5" class="card" onclick="toggleCard(5)">
+        <img src="https://coresos-phinf.pstatic.net/a/37a97d/4_hgcUd018svc1wl5hqyyebb4g_us905w.jpg" alt="Post image">
+        <p class="excerpt">📢푸꾸옥PKG 업데이트📢<br>✨2명부터 출발가능!!!!✨<br>✈️ 항공스케줄 안내 ✈️-좌석보유<br>부산→푸꾸옥 VJ969 07:35-11:05<br>푸꾸옥→부산 VJ96...</p>
+        <div class="card-content">
+          <p>📢푸꾸옥PKG 업데이트📢<br>✨2명부터 출발가능!!!!✨<br>✈️ 항공스케줄 안내 ✈️-좌석보유<br>부산→푸꾸옥 VJ969 07:35-11:05<br>푸꾸옥→부산 VJ968 23:35-06:30+1<br>💖푸꾸옥 관광 PKG 3박5일💖<br>📌적용기간: 2024년11월~2025년3월31일<br>📌출발인원: 2명부터~<br>📌판 매 가<br>무엉탄/소나가 리조트: 709,000원~<br>노보텔/베스트웨스턴 리조트: 779,000원~<br> <br>💥푸꾸옥 관광팩 핵심포인트💥<br>✔전신 오일마사지 60분(팁별도)<br>✔빈원더스+빈사파리<br>✔혼똠 아일랜드 케이블카 및 자유이용권<br>💖푸꾸옥 세미+호핑투어 PKG 3박5일💖<br>📌적용기간: 2024년11월~2025년3월31일<br>📌출발인원: 2명부터~<br>📌판 매 가<br>소나가 리조트: 659,000원 ~<br>노보텔 리조트: 709,000원 ~<br>풀    만 리조트: 859,000원 ~<br>⭕에어텔/인센/골프 견적가능⭕<br>[담당]<br>반혜진 차장 [네이트온 : nftour02@nate.com]<br>[문의전화]<br>엔에프투어 ☎ : 051-710-8600<br>감사합니다!♡ 오늘도 좋은하루되세요~!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37a95e/a_2gjUd018svc12981z0mtq4v7_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a9ag/7_6gcUd018svc4ihuyoqolt14_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a9b5/7_7gcUd018svc1vdyc75ixyzy2_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a9e9/9_jgcUd018svc1tssmqhl8dk6k_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a98a/a_0gcUd018svcw8dza0efya0p_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a9fc/9_igcUd018svc87nwusmopq0o_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a9hi/g_egcUd018svcnz34xtlc56bz_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a930/g_ggcUd018svc1djss4q48ygac_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-6" class="card" onclick="toggleCard(6)">
+        <img src="https://coresos-phinf.pstatic.net/a/37a80b/6_ddgUd018svc11e94o3tc678p_us905w.jpg" alt="Post image">
+        <p class="excerpt">📢나트랑+달랏 PKG 상품 업데이트안내📢<br>------------------------------------------------------<br>📌적용날짜 : 24년 1...</p>
+        <div class="card-content">
+          <p>📢나트랑+달랏 PKG 상품 업데이트안내📢<br>------------------------------------------------------<br>📌적용날짜 : 24년 10월 27일 ~ 25년 3월 31일<br>📌최소출발인원 : 6명부터~<br>📌상 품 가<br>●실속 : 349,000원 부터~<br>●품격 : 659,000원 부터~<br>~품격상품은 노팁/노옵션 입니다. **추천!**<br>-------------------------------------------------------<br>✈️ 스케줄 안내 ✈️ - 항공좌석 보유!!<br>부산-나트랑 VJ991 07:35-10:35<br>나트랑-부산 VJ990 00:05-06:30<br>[실속상품]<br>💚베트남 전통마사지 90분 포함<br>💚머드온천욕 체험!<br>💚과일도시락 1인당 1개 제공!!<br>[품격상품]<br>💚베트남 전통마사지 2시간<br>💚머드온천욕 체험!<br>💚마차투어, 케이블카, 레일바이크, 랑비엥지프차, 달랏야시장투어 포함<br>★중요★<br>써차지 및 갈라디너가 적용되는 날짜가 있으니 확인 부탁드립니다.<br>(적용기간 파일 참고 부탁드립니다.)<br>언제나 열심히 최선을 다하는 엔에프투어가 되겠습니다~!!!💁‍<br>⭕에어텔/인센/골프 견적가능⭕<br>[담당]<br>반혜진 차장 [네이트온 : nftour02@nate.com]<br>[문의전화]<br>엔에프투어 ☎ : 051-710-8600<br>감사합니다!♡ 오늘도 좋은하루되세요~!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37a89e/6_edgUd018svc1vapfdmmxftj8_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8gc/6_fdgUd018svc1ld7vm3buf15d_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8eh/6_gdgUd018svczuh3bag2nn60_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8h0/6_hdgUd018svcjkw102dxlsd2_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-7" class="card" onclick="toggleCard(7)">
+        <img src="https://coresos-phinf.pstatic.net/a/37a87h/g_8edUd018svc3lzoehmhmdg1_us905w.jpg" alt="Post image">
+        <p class="excerpt">📢파격특가📢<br>💚나트랑/달랏 품격(노노)PKG-테라코타호텔💚<br>💚노팁/노옵션💚<br>💖적용기간 : 10월 27일 ~ 12월 22일 까지<br>💖최소출발 4명 ...</p>
+        <div class="card-content">
+          <p>📢파격특가📢<br>💚나트랑/달랏 품격(노노)PKG-테라코타호텔💚<br>💚노팁/노옵션💚<br>💖적용기간 : 10월 27일 ~ 12월 22일 까지<br>💖최소출발 4명 부터~<br>💖1인요금 : 499,000원 부터~<br>👉베트남 전통마사지 2시간(팁별도)<br>👉머드온천욕<br>👉마차투어<br>👉랑비엥 전망대+지프차<br>👉죽림사 케이블카<br>👉다딴라 폭포 레일바이크<br>👉달랏 야시장투어<br>👉나트랑 야간시티투어<br>✈️ 항공스케줄 ✈️<br>1.정규편<br>부산-나트랑 VJ991 07:35-10:35<br>나트랑-부산 VJ990 00:05-06:30<br>2.증편편<br>부산-나트랑 VJ919 11:00-14:00<br>나트랑-부산 VJ918 03:25-09:55<br>⭕에어텔/인센/골프 견적가능⭕<br>[담당]<br>반혜진 차장 [네이트온 : nftour02@nate.com]<br>[문의전화]<br>엔에프투어 ☎ : 051-710-8600<br>감사합니다!♡ 오늘도 좋은하루되세요~!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37a9fc/b_3jcUd018svceeg43yjjf2fq_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8ad/g_5edUd018svc1r7wzaks8mgey_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8cg/g_6edUd018svc1618o8qohe4ep_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a915/e_58hUd018svc1s0gk61mrl883_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-8" class="card" onclick="toggleCard(8)">
+        <img src="https://coresos-phinf.pstatic.net/a/37a8d4/1_ia9Ud018svcodehfbiuchgx_us905w.png" alt="Post image">
+        <p class="excerpt">📢부산출발 하노이 패키지📢<br>📢하노이/하롱베이/옌뜨 - 3박5일📢<br>------------------------------------------------------...</p>
+        <div class="card-content">
+          <p>📢부산출발 하노이 패키지📢<br>📢하노이/하롱베이/옌뜨 - 3박5일📢<br>------------------------------------------------------<br>📌적용날짜 : 24년 11월 ~ 25년 3월<br>📌최소출발인원 : 6명부터~<br>📌상 품 가<br>●실속 : 399,000원 부터~<br>●품격 : 719,000원 부터~<br>(노팁/노옵션)<br>**추천**<br>------------------------------------------------------<br>[실속상품]<br>💚옌뜨국립공원 케이블카<br>💚베트남 전통마사지 1시간(팁별도)<br>💚하롱베이 선상관광<br>💚베트남 전통모자 농, 위즐커피 제공<br>[품격상품]<br>💚옌뜨국립공원 케이블카<br>💚베트남 전통마사지 2회(팁별도)<br>-2시간*1회, 1시간*1회<br>💚하롱베이 선상관광<br>-비경투어(스피트보트+항루언)+선상식(씨푸드)<br>💚하롱테마파크 해상케이블카+대관람차+하롱야경감상<br>💚하노이 야간시티투어 + 쎈레스토랑 포함<br>💚베트남 전통모자 농, 위즐커피 제공<br>-------------------------------------------------------<br>✈️ 항공스케줄 ✈️<br>부산-하노이 VJ981 08:00-10:30<br>하노이-부산 VJ982 01:00-07:00<br>[증편스케줄]<br>부산-하노이 VJ957 08:30-11:35<br>하노이-부산 VJ956 00:45-06:55<br>※ 12/20 부터 부산-하노이는 하루에 2회씩 운항합니다. ※<br>-------------------------------------------------------<br>⭕에어텔/인센/골프 견적가능⭕<br>많은 문의 부탁드립니다.~!<br>♡NFTour: ☎ 051-710–8600</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37a8f8/i_ea8Ud018svc11d0ew4tbn7q9_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8fg/i_fa8Ud018svcx0776o8fpjm_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a8h9/i_ga8Ud018svcemc3rqsh2fbz_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-9" class="card" onclick="toggleCard(9)">
+        <img src="https://coresos-phinf.pstatic.net/a/37a5ga/9_ah9Ud018svc1b9j15im2261i_us905w.png" alt="Post image">
+        <p class="excerpt">📢부산출발 다낭+호이안 관광 PKG<br>📢다낭 여행하기에 딱~ 좋은~~시즌~~<br>--------------------------------------------------...</p>
+        <div class="card-content">
+          <p>📢부산출발 다낭+호이안 관광 PKG<br>📢다낭 여행하기에 딱~ 좋은~~시즌~~<br>-------------------------------------------------------<br>📌다낭+호이안 3박5일<br>📌적용날짜 : 24년 11월 ~ 25년 3월<br>📌최소출발인원 : "4명" 부터~<br>📌상품가<br>●실속 : 429,000원 부터~<br>●품격(노팁/풀옵션) : 649,000원 부터~<br>●고품격(노팁/노옵션) : 719,000원 부터~  <br>-------------------------------------------------------<br>-------------------------------------------------------<br>✈️ 항공스케줄 ✈️<br>부산-다낭 VJ989 08:30-11:00<br>다낭-부산 VJ988 00:35-06:55<br>-------------------------------------------------------<br>⭕에어텔/인센/골프 견적가능⭕<br>♡담당: 김강민과장<br>♡네이트: nftour01@nate.com<br>♡NFTour: ☎ 051-710–8600<br>💖많은 문의 부탁드립니다!💖<br>💁‍♀️언제나 열심히 최선을 다하는 엔에프투어가 되겠습니다~!!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37a55f/9_9h9Ud018svc10mkryscwosbu_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a5e7/9_5h9Ud018svch3scamiv5bof_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a5j7/9_6h9Ud018svcszc0lhygu9vt_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37a535/9_8h9Ud018svc6ifd24gan2m9_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-10" class="card" onclick="toggleCard(10)">
+        <img src="https://coresos-phinf.pstatic.net/a/379512/h_45bUd018svcpbx6b90tpj4r_us905w.png" alt="Post image">
+        <p class="excerpt">📢나트랑+달랏 품격 3박5일📢<br>💚달랏 테라코타 호텔 프로모션💚<br>💚노팁/노옵션💚<br>💖적용기간 : 10월 1일 ~ 12월 22일 까지<br>💖최소출발 4명...</p>
+        <div class="card-content">
+          <p>📢나트랑+달랏 품격 3박5일📢<br>💚달랏 테라코타 호텔 프로모션💚<br>💚노팁/노옵션💚<br>💖적용기간 : 10월 1일 ~ 12월 22일 까지<br>💖최소출발 4명 부터~<br>💖1인요금 : 559,000원 부터~<br>👉베트남 전통마사지 2시간(팁별도)<br>👉머드온천욕<br>👉마차투어<br>👉랑비엥 전망대+지프차<br>👉죽림사 케이블카<br>👉다딴라 폭포 레일바이크<br>👉달랏 야시장투어<br>👉나트랑 야간시티투어<br>✈️ 항공스케줄 ✈️<br>부산-나트랑 VJ991 07:35-10:35<br>나트랑-부산 VJ990 00:05-06:30<br>⭕에어텔/인센/골프 견적가능⭕<br>♡NFTour: ☎ 051-710–8600</p>
+          <img src="https://coresos-phinf.pstatic.net/a/379542/h_05bUd018svc1tm9rri1izs6g_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/379539/h_25bUd018svcvw9aw9n8pv8n_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3795i9/g_e5bUd018svckhyqdpq6bw03_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/379510/g_i5bUd018svc1brr1cm0sdmvc_us905w.png" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-11" class="card" onclick="toggleCard(11)">
+        <img src="https://coresos-phinf.pstatic.net/a/3791df/h_120Ud018svcba3y2l19c34e_us905w.png" alt="Post image">
+        <p class="excerpt">NFTour 베트남 동계 PKG 상품안내 드립니다.♥<br>⭕담당<br>[동남아 - 베트남 전 지역/태국/필리핀/라오스]<br>♡반혜진 차장 [nftour02@nate.com]<b...</p>
+        <div class="card-content">
+          <p>NFTour 베트남 동계 PKG 상품안내 드립니다.♥<br>⭕담당<br>[동남아 - 베트남 전 지역/태국/필리핀/라오스]<br>♡반혜진 차장 [nftour02@nate.com]<br>♡김강민 과장 [nftour01@nate.com]<br>[아프리카]<br>♡이정민실장 [nftour03@nate.com]<br>⭕문의<br>☎ : 051-710–8600 <br>⭕에어텔/인센/골프 견적문의 환영합니다~!</p>
+          
+        </div>
+      </div>
+    
+      <div id="card-12" class="card" onclick="toggleCard(12)">
+        <img src="https://coresos-phinf.pstatic.net/a/379041/1_d0cUd018svc1s94xqfxdrg1m_us905w.png" alt="Post image">
+        <p class="excerpt">📢부산출발 다낭 골프 패키지📢<br>📢다낭 3색골프 54H - 3박5일📢<br>----------------------------------------------------...</p>
+        <div class="card-content">
+          <p>📢부산출발 다낭 골프 패키지📢<br>📢다낭 3색골프 54H - 3박5일📢<br>------------------------------------------------------<br>📌적용날짜 : 24년 10월 ~ 12월 31일<br>📌최소출발인원 : 4명부터~<br>📌상품가 : 1인 990,000원~<br>-------------------------------------------------------<br>[포함사항]<br>💚왕복항공료, 유류+텍스<br>💚호텔(2인1실기준)<br>💚전용차량, 로컬가이드(한국어가능)<br>💚골프 그린피 3회<br>💚차량 내 생수<br>[불포함사항]<br>💚기사+한국인 가이드팁-$50/인<br>💚캐디비+카트비($50/인/18H)<br>💚캐디팁($15~$20/1인/18H), 클럽중식($10~)<br>💚전 일정 석식<br>💚개인경비 및 매너팁<br>💚추천옵션비용<br>💚주말 및 공휴일 추가요금<br>💚호텔 써차지<br>(※기간 별 상이하므로 예약 시 문의부탁드립니다.)<br>-------------------------------------------------------<br>✈️ 항공스케줄<br>부산-다낭 VJ989 08:30-11:00<br>다낭-부산 VJ988 00:35-06:55<br>💁‍♀️언제나 열심히 최선을 다하는 엔에프투어가 되겠습니다~!!!<br>⭕에어텔/인센/골프 견적가능⭕<br>♡담당: 김강민과장<br>♡네이트: nftour01@nate.com<br>♡NFTour: ☎ 051-710–8600<br>오늘도 좋은 하루 되세요~!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37909e/j_40cUd018svcwfhmpszt8jt3_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3790ff/j_50cUd018svc1bz54nrffcco3_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37909e/4_a0cUd018svc1eahsqdbdrqo4_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3790di/4_80cUd018svc4braherxwf2b_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37907f/4_60cUd018svcxugchj2ghjdk_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/379056/4_c0cUd018svccic3l1cdl6p5_us905w.png" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-13" class="card" onclick="toggleCard(13)">
+        <img src="https://coresos-phinf.pstatic.net/a/378bei/f_2hcUd018svc1bfohzon92xda_us905w.jpg" alt="Post image">
+        <p class="excerpt">안녕하세요 NF투어입니다.<br>풍성하고 밝은 보름달처럼 웃음꽃 가득한 넉넉한 한가위 되시길 기원합니다.<br>즐거운 명절 연휴 보내세요.~!</p>
+        <div class="card-content">
+          <p>안녕하세요 NF투어입니다.<br>풍성하고 밝은 보름달처럼 웃음꽃 가득한 넉넉한 한가위 되시길 기원합니다.<br>즐거운 명절 연휴 보내세요.~!</p>
+          
+        </div>
+      </div>
+    
+      <div id="card-14" class="card" onclick="toggleCard(14)">
+        <img src="https://coresos-phinf.pstatic.net/a/378abd/i_68iUd018svc1m42flnp3rp6q_us905w.jpg" alt="Post image">
+        <p class="excerpt">#<br>📣대구출발- 골프 패키지📣<br>&lt;항공스케줄-좌석보유&gt;<br>✈️대구출발<br>대구→나트랑 VJ871 07:50-11:00<br>나트랑→대구 VJ870 00...</p>
+        <div class="card-content">
+          <p>#<br>📣대구출발- 골프 패키지📣<br>&lt;항공스케줄-좌석보유&gt;<br>✈️대구출발<br>대구→나트랑 VJ871 07:50-11:00<br>나트랑→대구 VJ870 00:20-06:50<br>👉출발일: 10월 27일 부터~<br>👉최저가 1,210,000~<br>👉4명부터 출발가능<br>👉 포함사항<br>📌왕복항공료, 해외여행자보험<br>📌호텔3박(2인1실), 전용차량, 관광지 입장료, 로칼 가이드<br>📌 골프 18홀*3회/그린피+카트피(2인1카트)+캐디피<br>👉불포함사항<br>📌미팅/샌딩비 $60/인<br>📌캐디팁($13~15/1인/18홀), 전일정 중식(클럽식)/석식<br>📌기타 개인 경비 및 매너팁<br>📌 주말 및 공휴일(베트남 공휴일) 골프추가요금: $30/1인/18홀<br>📌 싱글카트비 $20/18홀<br>   선착순 마감이니 서둘러 문의 부탁드립니다.<br>💁‍♀️언제나 열심히 최선을 다하는 엔에프투어가 되겠습니다~!!!<br>⭕에어텔/인센/골프 견적가능⭕<br>    엔에프투어 ☎ : 051-710-8600</p>
+          <img src="https://coresos-phinf.pstatic.net/a/378ai1/g_68hUd018svc1hwdpgw78344t_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378ai2/g_78hUd018svc7kaplmmrcnqj_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378a3b/7_68iUd018svc166m6lx6ef3it_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378ad2/7_78iUd018svc11uz2tzf4m3fi_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378aag/7_98iUd018svccboc60j635r5_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-15" class="card" onclick="toggleCard(15)">
+        <img src="https://coresos-phinf.pstatic.net/a/378824/5_2j5Ud018svcajgdqcltmxur_us905w.png" alt="Post image">
+        <p class="excerpt">✈️여러번 가도 좋은 휴양+관광 최고의 도시! <br>태국 방콕+파타야✈️<br>👍방콕+파타야 실속/품격 패키지 3박5일<br>👍10월 말 ~ 25년 3월<br>👍최소출발인원...</p>
+        <div class="card-content">
+          <p>✈️여러번 가도 좋은 휴양+관광 최고의 도시! <br>태국 방콕+파타야✈️<br>👍방콕+파타야 실속/품격 패키지 3박5일<br>👍10월 말 ~ 25년 3월<br>👍최소출발인원 : 4명부터~<br>&lt;상품가&gt;<br>📌실속 : 559,000원~<br>📌품격 : 809,000원~<br>"짠내투어" 방영된 푸카오팅(왓사켓) 황금산사원, 동굴사원<br>~종울리기+체디관람+황금산전망대~<br>💚실속<br>-준특급 3박<br>-푸카오팅(왓사켓) 황금산사원<br>-파타야 산호섬투어<br>-수상시장 플로팅마켓, 황금절벽사원<br>-코끼리트래킹<br>-태국전통마사지 1시간<br>💚품격(노팁/노옵션/파타야특급)<br>-파타야 특급 2박!<br>-파타야 럭셔리 요트투어 (스노쿨링,줄낚시), 바나나보트 탑승<br>-푸카오팅(왓사켓) 황금산사원<br>-파타야 산호섬투어<br>-수상시장 플로팅마켓, 황금절벽사원<br>-코끼리트래킹, 태국 전통마사지 2시간<br>-방콕 핫플 야시장 아시아티크투어<br>-방콕 욧시암 크루즈 탑승투어<br>(맥주, 음료, 과일무제한제공, 라이브공연 및 댄서공연)<br>💁‍♀️언제나 최선을 다하는 엔에프투어가 되겠습니다~!!!<br>━━━━━━━━━━━━━<br>⭕에어텔/인센/골프 견적가능⭕<br>이정민실장(nftour03@nate.com)<br>반혜진차장(nftour02@nate.com)<br>김강민과장(nftour01@nate.com)<br>**전화문의**<br>☎ 051-710–8600<br>오늘도 좋은 하루 되세요~!<br>많은 문의 부탁 드립니다.<br>감사합니다.!♥<br>━━━━━━━━━━━━━</p>
+          <img src="https://coresos-phinf.pstatic.net/a/37884a/5_6j5Ud018svc1jymlhm7fmpi2_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3788hh/5_3j5Ud018svc1em7jd94wbia6_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378805/5_5j5Ud018svcs4wn3cul3aoc_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37888j/c_bj5Ud018svc1b13ehns4aor0_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37888c/c_8j5Ud018svc15sur4hqw6tqn_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3788h2/c_1j5Ud018svcf7qdxva17pi9_us905w.png" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3788d6/c_2j5Ud018svcbvb9h1quyycy_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378883/c_3j5Ud018svc51qdo5ek4096_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378848/c_aj5Ud018svc1tcagh5yc15ko_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-16" class="card" onclick="toggleCard(16)">
+        <img src="https://coresos-phinf.pstatic.net/a/378141/5_f24Ud018svcqsbh0bcoozp5_us905w.png" alt="Post image">
+        <p class="excerpt">📢호치민+무이네 사막투어 - 3박5일<br>📌적용날짜 : 24년 9월 25일 ~ 25년 1월 3일<br>📌매주 수,목,금,토 출발<br>📌최소출발인원 : 6명부터~<br>�...</p>
+        <div class="card-content">
+          <p>📢호치민+무이네 사막투어 - 3박5일<br>📌적용날짜 : 24년 9월 25일 ~ 25년 1월 3일<br>📌매주 수,목,금,토 출발<br>📌최소출발인원 : 6명부터~<br>👉1인요금 : 469,000원~<br>------------------------------------------------------<br>✔️전신마사지 1시간 포함<br>✔️호치민 시티투어(핑크성당, 통일궁, 전쟁박물관, 우체국)<br>✔️무이네 사막투어<br>✔️동양의 사막에서 인생샷 가능!<br>-----------------------------------------------------<br>✈️ 항공스케줄 ✈️-좌석보유!<br>부산-호치민 VJ869 08:45-11:40<br>호치민-부산 VJ868 00:55~07:45<br>------------------------------------------------------</p>
+          <img src="https://coresos-phinf.pstatic.net/a/3781a6/9_024Ud018svc1kzvamvgwb2n4_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3781di/3_d25Ud018svc176x4pcyl80z8_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378220/6_86hUd018svc165se541olsg1_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/378118/7_525Ud018svcvqthn1wqoq21_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3781f7/7_525Ud018svcg708n3csgx1k_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/37810g/7_725Ud018svc13edaxpwvdweq_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/3781i3/7_725Ud018svc1fec8pbfwc48e_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-17" class="card" onclick="toggleCard(17)">
+        <img src="https://coresos-phinf.pstatic.net/a/377i38/e_857Ud018svc1hbj2x1945r52_us905w.png" alt="Post image">
+        <p class="excerpt">📢하노이 품격 특가📢<br>&lt;하노이+하롱베이+옌뜨 3박5일&gt;<br>☞ 출발일자<br>● 9/22, 24 : 699,000 (**선착순 10명**)<br>● 10/20...</p>
+        <div class="card-content">
+          <p>📢하노이 품격 특가📢<br>&lt;하노이+하롱베이+옌뜨 3박5일&gt;<br>☞ 출발일자<br>● 9/22, 24 : 699,000 (**선착순 10명**)<br>● 10/20, 22, 28 : 729,000<br>☞ 품격(★노팁/노옵션★)-추천!<br>☞ 8명부터 출발가능<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>✈️ 항공스케줄 ✈️ 좌석보유!!!!<br>부산-하노이 VJ 981 08:00-10:50<br>하노이-부산 VJ 982 01:00-07:00<br>💁‍♀️언제나 최선을 다하는 엔에프투어가 되겠습니다~!!!<br>⭕에어텔/인센/골프 견적가능⭕<br>♡담당 : 김강민과장(nftour01@nate.com)<br>♡NFTour: ☎ 051-710–8600<br>오늘도 좋은 하루 되세요~!<br>하튜♥</p>
+          <img src="https://coresos-phinf.pstatic.net/a/377i35/e_f57Ud018svco30lq7gc5lbs_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-18" class="card" onclick="toggleCard(18)">
+        <img src="https://coresos-phinf.pstatic.net/a/377gd1/g_6h3Ud018svc37t8khq3xwol_us905w.png" alt="Post image">
+        <p class="excerpt">✈️에티오피아항공 비지니스✈️ 타고 아프리카로 떠나요!<br>📢 대자연의 신비로움 그 자체인 아프리카!!<br>📢 노쇼핑! 전문인솔자 동행으로 보다 편리하고 안전한 여행!!<b...</p>
+        <div class="card-content">
+          <p>✈️에티오피아항공 비지니스✈️ 타고 아프리카로 떠나요!<br>📢 대자연의 신비로움 그 자체인 아프리카!!<br>📢 노쇼핑! 전문인솔자 동행으로 보다 편리하고 안전한 여행!!<br>■정통리얼 아프리카 6개국 12일■<br>☞출발일<br>○ 24년 12월 2일 ~ 25년 3월 24일<br>○ 매주 월요일 출발~<br>○ 25년 1월 6일 출발 집중모객중!!!!!!!!!!!!!!!!!!!!<br>○ 여행지역(6개국)<br>케냐-탄자니아-짐바브웨-잠비아-보츠와나-남아공<br>☞판매가 : 1,420만원~1,489만원<br>○ 최소출발인원: 10명이상<br>☞포함사항<br>-국제선항공권<br>-전일정 특급~1급 호텔 및 롯지숙박(2인1실),<br>-일정표상의 관광지 입장료 및 식사<br>-아루샤-세렝게티 편도 경비행기<br>-특식 3회(야마쵸마 특식 및 사파리캣츠쇼, 정글정션 뷔페식, 케이프타운 랍스터)<br>-전문 인솔가이드 동행<br>☞불포함사항<br>-케냐 ETA 비용(1인당 $36 / 대행시 1인 10만원)<br>-탄자니아&amp;짐바브웨 도착 비자 비용(1인 $100)<br>-기사/가이드팁등 공동경비(15명이상$150, 15명미만 $215)<br>-호텔1인실 사용료(140만원)<br>☞상품특징<br>📌에티오피아항공 4구간 비즈니스석 탑승!<br> (인천-아디스아바바-나이로비, 케이프타운-아디스아바바-인천)<br>📌아시아나항공 약 16,000 마일 적립가능!<br>📌케냐 1회 입국으로 번거로운 출입국 과정 감소!<br>📌정통 리얼 사파리 투어 : 세렝게티/응고롱고로/초베 국립공원<br>📌만년설의 전설을 간직한 킬리만자로산 트래킹(2시간)<br>📌세계 3대 폭포 중 하나인 빅토리아폭포(짐바브웨&amp;잠비아)<br>📌노을이 지는 아름다운 잠베지강의 선셋크루즈 (음료 무제한제공)<br>📌아프리카속 유럽풍의 살아보고 싶은 도시, 케이프타운!<br>📌노쇼핑, 전문인솔자 동행<br>========================================<br>⭕담당자 / 네이트온⭕<br>▶이정민 실장 (nftour03@nate.com)<br>▶반혜진차장 (nftour02@nate.com)<br>▶김강민과장 (nftour01@nate.com)<br>**네이트온으로 문의주시면 자세한 상담 도와드리겠습니다**<br>[문의전화]<br>엔에프투어 ☎ : 051-710-8600<br>=========================================</p>
+          <img src="https://coresos-phinf.pstatic.net/a/377g5g/g_ch0Ud018svcultx2dj4y2yt_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377ge7/g_dh0Ud018svce32kihibr22o_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377gce/g_eh0Ud018svcdr8d2j7e6o5m_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377gh7/g_fh0Ud018svc11z6mldkw0f08_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377g3c/g_hh0Ud018svc266rl1bw15vb_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377g85/g_ih0Ud018svca05zxt6hmo4g_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377gce/g_jh0Ud018svcmea0dm97oljn_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377gi8/h_0h0Ud018svc1qe5pe8h9e944_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377g26/h_2h0Ud018svcmw8ujil25763_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    
+      <div id="card-19" class="card" onclick="toggleCard(19)">
+        <img src="https://coresos-phinf.pstatic.net/a/377b85/i_g81Ud018svcymy32ry5zyfo_us905w.png" alt="Post image">
+        <p class="excerpt">📢부산출발 9월~10월 다낭+호이안 관광 패키지📢<br>📢베트남 여행하기에 딱 좋은 가을시즌~📢<br>---------------------------------------...</p>
+        <div class="card-content">
+          <p>📢부산출발 9월~10월 다낭+호이안 관광 패키지📢<br>📢베트남 여행하기에 딱 좋은 가을시즌~📢<br>------------------------------------------------------<br>📌다낭+호이안 3박5일<br>📌적용날짜 : 24년 9월 ~ 10월<br>📌최소 출발인원 : 4명부터~<br>📌상품가<br>●실속 : 369,000원 부터~<br>●품격(노팁/노옵션) : 599,000원 부터~ **추천** <br>-------------------------------------------------------<br>✈️ 항공스케줄 ✈️ 좌석보유<br>부산-다낭  VJ989  10:00-12:30<br>다낭-부산  VJ988  02:55-09:00<br>💁‍♀️언제나 열심히 최선을 다하는 엔에프투어가 되겠습니다~!!!<br>⭕에어텔/인센/골프 견적가능⭕<br>♡담당: 김강민과장<br>♡네이트: nftour01@nate.com<br>♡NFTour: ☎ 051-710–8600<br>감사합니다.!</p>
+          <img src="https://coresos-phinf.pstatic.net/a/377b13/i_c81Ud018svc1q3itrhkj08k0_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377b65/i_d81Ud018svcdepmt2bm3fz3_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377bch/i_e81Ud018svco0f44wr1oz9a_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377bg9/a_g83Ud018svcowaid6d80e35_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377b5f/8_c82Ud018svceecae6yybjqv_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377bjc/a_e83Ud018svc18h7ozrhjffk8_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377b9c/8_f82Ud018svczzrjv92ze7e9_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377ba7/8_h82Ud018svc1l0lfnompmqtw_us905w.jpg" alt="Post image"><img src="https://coresos-phinf.pstatic.net/a/377b98/8_d82Ud018svcehaf28xgti2_us905w.jpg" alt="Post image">
+        </div>
+      </div>
+    </div><script>
+    var currentOpenCard = null;
 
+    function toggleCard(index) {
+      var clickedCard = document.getElementById('card-' + index);
+      
+      if (currentOpenCard && currentOpenCard !== clickedCard) {
+        currentOpenCard.classList.remove('expanded');
+        currentOpenCard.style.animation = 'none';
+        currentOpenCard.style.transform = 'scale(1)';
+      }
+      
+      clickedCard.classList.toggle('expanded');
+      
+      if (clickedCard.classList.contains('expanded')) {
+        currentOpenCard = clickedCard;
+        setTimeout(() => {
+          const cardPosition = clickedCard.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({ top: cardPosition - 10, behavior: 'smooth' });
+        }, 300);
+      } else {
+        clickedCard.style.animation = 'none';
+        clickedCard.style.transform = 'scale(1)';
+        currentOpenCard = null;
+      }
+    }
+  </script></body></html>
