@@ -27,15 +27,14 @@
       color: #333;
       margin: 0;
     }
-    /* Masonry 그리드 스타일 */
+    /* 그리드 기본 설정 */
     .grid {
-      position: relative;
+      width: 100%;
       margin: 0 auto;
     }
-    /* 카드 스타일 */
+    /* 카드 스타일 - 기본적으로 5열 레이아웃 */
     .grid-item {
-      width: 100%;
-      max-width: 19%;
+      width: 19%;
       margin-bottom: 15px;
       background: white;
       border-radius: 8px;
@@ -43,7 +42,6 @@
       overflow: hidden;
       cursor: pointer;
       transition: all 0.3s ease;
-      break-inside: avoid;
     }
     .grid-item:hover {
       transform: translateY(-5px);
@@ -155,30 +153,25 @@
       background-color: #0056b3;
     }
     /* 반응형 디자인 */
-    @media (min-width: 1601px) {
+    @media (max-width: 1600px) {
       .grid-item {
-        max-width: 19%;
+        width: 24%;
       }
     }
-    @media (min-width: 1201px) and (max-width: 1600px) {
+    @media (max-width: 1200px) {
       .grid-item {
-        max-width: 24%;
+        width: 32%;
       }
     }
-    @media (min-width: 901px) and (max-width: 1200px) {
+    @media (max-width: 900px) {
       .grid-item {
-        max-width: 32%;
-      }
-    }
-    @media (min-width: 768px) and (max-width: 900px) {
-      .grid-item {
-        max-width: 48%;
+        width: 48%;
       }
     }
     /* 모바일 및 태블릿에서만 1열로 표시 */
     @media (max-width: 767px) {
       .grid-item {
-        max-width: 100%;
+        width: 100%;
       }
       .detail-images img {
         max-width: 100%;
@@ -191,7 +184,7 @@
     /* 태블릿 세로 모드에서는 1열로 표시 */
     @media (orientation: portrait) and (max-width: 1024px) and (min-width: 768px) {
       .grid-item {
-        max-width: 100%;
+        width: 100%;
       }
     }
     /* 로딩 표시기 */
@@ -315,10 +308,8 @@
       imagesLoaded(grid, function() {
         msnry = new Masonry(grid, {
           itemSelector: '.grid-item',
-          columnWidth: '.grid-item',
           percentPosition: true,
           gutter: 10,
-          fitWidth: true,
           transitionDuration: '0.2s'
         });
         document.getElementById('loader').style.display = 'none';
