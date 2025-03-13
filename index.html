@@ -59,14 +59,19 @@
       height: auto;
       display: block;
     }
-    .card-img-placeholder {
-      width: 100%;
-      aspect-ratio: 1/1;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #999;
+    /* 카드 이미지 없을 때 텍스트 스타일 */
+    .card-text-content {
+      padding: 15px;
+      height: 200px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 9;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      background-color: #f9f9f9;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.6;
     }
     .card-overlay {
       position: absolute;
@@ -165,7 +170,8 @@
         max-width: 48%;
       }
     }
-    @media (max-width: 767px) {
+    /* 모바일 및 태블릿에서는 항상 1열로 표시 */
+    @media (max-width: 767px), (orientation: portrait) and (max-width: 1024px) {
       .grid-item {
         max-width: 100%;
       }
@@ -257,22 +263,36 @@
           img.src = post.photos[0];
           img.alt = "Post image";
           img.onerror = function() {
-            this.parentNode.innerHTML = '<div class="card-img-placeholder">이미지 없음</div>';
+            this.parentNode.parentNode.removeChild(this.parentNode);
+            
+            // 이미지 대신 텍스트 컨텐츠 추가
+            const textContent = document.createElement('div');
+            textContent.className = 'card-text-content';
+            textContent.textContent = post.content.replace(/<br>/g, " ").substring(0, 200) + (post.content.length > 200 ? "..." : "");
+            gridItem.appendChild(textContent);
           };
           imgContainer.appendChild(img);
         } else {
-          imgContainer.innerHTML = '<div class="card-img-placeholder">이미지 없음</div>';
+          // 이미지가 없을 때 텍스트 컨텐츠 추가
+          const textContent = document.createElement('div');
+          textContent.className = 'card-text-content';
+          textContent.textContent = post.content.replace(/<br>/g, " ").substring(0, 200) + (post.content.length > 200 ? "..." : "");
+          gridItem.appendChild(textContent);
+          // 이미지 컨테이너는 추가하지 않음
+          imgContainer = null;
         }
         
-        const overlay = document.createElement('div');
-        overlay.className = 'card-overlay';
-        overlay.innerHTML = `
-          <div class="card-source">${post.bandName}</div>
-          <div>${post.content.replace(/<br>/g, " ").substring(0, 50)}...</div>
-        `;
-        
-        imgContainer.appendChild(overlay);
-        gridItem.appendChild(imgContainer);
+        if (imgContainer) {
+          const overlay = document.createElement('div');
+          overlay.className = 'card-overlay';
+          overlay.innerHTML = `
+            <div class="card-source">${post.bandName}</div>
+            <div>${post.content.replace(/<br>/g, " ").substring(0, 50)}...</div>
+          `;
+          
+          imgContainer.appendChild(overlay);
+          gridItem.appendChild(imgContainer);
+        }
         grid.appendChild(gridItem);
       });
       
