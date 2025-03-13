@@ -12,7 +12,7 @@
       background-color: #f5f5f5;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1600px;
       margin: 0 auto;
     }
     /* 헤더 스타일 */
@@ -35,7 +35,7 @@
     /* 카드 스타일 */
     .grid-item {
       width: 100%;
-      max-width: 300px;
+      max-width: 19%;
       margin-bottom: 15px;
       background: white;
       border-radius: 8px;
@@ -150,6 +150,21 @@
       background-color: #0056b3;
     }
     /* 반응형 디자인 */
+    @media (max-width: 1600px) {
+      .grid-item {
+        max-width: 24%;
+      }
+    }
+    @media (max-width: 1200px) {
+      .grid-item {
+        max-width: 32%;
+      }
+    }
+    @media (max-width: 900px) {
+      .grid-item {
+        max-width: 48%;
+      }
+    }
     @media (max-width: 767px) {
       .grid-item {
         max-width: 100%;
@@ -267,7 +282,8 @@
           itemSelector: '.grid-item',
           columnWidth: '.grid-item',
           percentPosition: true,
-          gutter: 15,
+          gutter: 10,
+          fitWidth: true,
           transitionDuration: '0.2s'
         });
         document.getElementById('loader').style.display = 'none';
