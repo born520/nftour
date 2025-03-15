@@ -13,7 +13,11 @@
     .header h1 {font-size: 28px; color: #333;}
     .header a {color: #333; text-decoration: none;}
     .masonry-container {width: 100%; margin: 0 auto;}
-    .grid-item {width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; margin-bottom: 20px;}
+    .grid-item {width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; margin-bottom: 20px;}
+    @media (min-width: 1200px) { .grid-item {width: 23%;} }
+    @media (min-width: 900px) and (max-width: 1199px) { .grid-item {width: 31%;} }
+    @media (max-width: 899px) { .grid-item {width: 48%;} }
+    @media (max-width: 599px) { .grid-item {width: 100%;} }
     .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
     .card-img img {width: 100%; display: block; object-fit: cover;}
     .card-title {padding: 15px; font-size: 18px; font-weight: 700; color: #333; line-height: 1.4; text-align: left;}
