@@ -93,42 +93,63 @@
     });
     function initializeApp() {
       try {
-        restoreStateFromSession();
-        renderGrid();
         var urlParams = new URLSearchParams(window.location.search);
         var postId = urlParams.get("post");
-        if (postId !== null && postsData[postId]) showDetail(parseInt(postId), false);
+        restoreStateFromSession(postId);
+        if (postId !== null && postsData[postId]) {
+          showDetail(parseInt(postId), false);
+        } else {
+          renderGrid();
+        }
       } catch (error) {
         console.error("초기화 오류:", error);
         showErrorMessage();
+        renderGrid();
+      }
+    }
+    function restoreStateFromSession(postIdFromUrl) {
+      try {
+        var stateJson = sessionStorage.getItem(SESSION_STATE_KEY);
+        if (stateJson) {
+          var state = JSON.parse(stateJson);
+          if (postIdFromUrl === null && state.view === "detail" && state.postId !== undefined) {
+            showDetail(state.postId, false);
+          } else if (postIdFromUrl === null && state.view === "list") {
+            renderGrid();
+          }
+        }
+      } catch (e) {
+        console.error("세션 복원 오류:", e);
       }
     }
     function renderGrid() {
+      console.log("renderGrid 호출");
       var grid = document.getElementById("masonry-grid");
       var spinner = document.getElementById("loading-spinner");
       if (postsData.length === 0) {
         grid.innerHTML = '<p style="text-align: center; color: #666;">최근 게시물이 없습니다.</p>';
-        console.log("게시물 데이터 없음");
         spinner.style.display = "none";
         return;
       }
-      grid.innerHTML = ""; // 스피너 제거
+      var fragment = document.createDocumentFragment();
       for (var i = 0; i < postsData.length; i++) {
         var post = postsData[i];
-        var index = i;
         var card = document.createElement("div");
-        card.className = "grid-item" + (i >= 5 ? " hidden" : ""); // 처음 5개 외에는 숨김
-        card.setAttribute("data-index", index);
+        card.className = "grid-item" + (i >= 5 ? " hidden" : "");
+        card.setAttribute("data-index", i);
         card.addEventListener("click", (function(idx) {
           return function() { showDetail(idx); };
-        })(index));
+        })(i));
         if (post.photos && post.photos.length > 0 && post.photos[0]) {
-          card.innerHTML = "<div class=\"card-img\"><img src=\"" + post.photos[0] + "\" loading=\"lazy\" alt=\"게시물 이미지\" onerror=\"this.parentNode.parentNode.innerHTML = createTextOnlyHTML(" + index + ")\"></div><div class=\"card-content\"><div class=\"card-excerpt\">" + post.content.replace(/<br>/g, " ").substring(0, 120) + "...</div><div class=\"card-date\">" + post.date + "</div></div>";
+          card.innerHTML = "<div class=\"card-img\"><img src=\"" + post.photos[0] + "\" loading=\"lazy\" alt=\"게시물 이미지\" onerror=\"this.parentNode.parentNode.innerHTML = createTextOnlyHTML(" + i + ")\"></div><div class=\"card-content\"><div class=\"card-excerpt\">" + post.content.replace(/<br>/g, " ").substring(0, 120) + "...</div><div class=\"card-date\">" + post.date + "</div></div>";
         } else {
-          card.innerHTML = createTextOnlyHTML(index);
+          card.innerHTML = createTextOnlyHTML(i);
         }
-        grid.appendChild(card);
+        fragment.appendChild(card);
       }
+      grid.innerHTML = "";
+      grid.appendChild(fragment);
+      spinner.style.display = "none";
       initializeMasonry();
       revealRemainingPosts();
     }
@@ -137,8 +158,16 @@
       imagesLoaded(grid, function() {
         if (msnry) msnry.destroy();
         var columnWidth = isMobile ? grid.offsetWidth : 320;
-        msnry = new Masonry(grid, { itemSelector: ".grid-item", columnWidth: columnWidth, gutter: isMobile ? 10 : 20, fitWidth: true, horizontalOrder: true, transitionDuration: "0.3s", stagger: 30, resize: true });
-        setTimeout(function() { msnry.layout(); }, 500);
+        msnry = new Masonry(grid, {
+          itemSelector: ".grid-item",
+          columnWidth: columnWidth,
+          gutter: isMobile ? 10 : 20,
+          fitWidth: true,
+          horizontalOrder: true,
+          transitionDuration: "0.3s",
+          resize: true
+        });
+        msnry.layout();
       });
     }
     function revealRemainingPosts() {
@@ -148,12 +177,12 @@
       function revealNext() {
         if (index < hiddenItems.length) {
           hiddenItems[index].classList.remove("hidden");
-          msnry.layout();
+          if (msnry) msnry.layout();
           index++;
-          setTimeout(revealNext, 200); // 0.2초 간격으로 표시
+          setTimeout(revealNext, 200);
         }
       }
-      setTimeout(revealNext, 500); // 초기 5개 표시 후 0.5초 후부터 시작
+      setTimeout(revealNext, 500);
     }
     function createTextOnlyHTML(index) {
       var post = postsData[index];
@@ -161,6 +190,7 @@
     }
     function showDetail(index, saveState) {
       if (saveState === undefined) saveState = true;
+      console.log("showDetail 호출: index=" + index);
       try {
         var post = postsData[index];
         if (!post) throw new Error("게시물을 찾을 수 없습니다.");
@@ -184,27 +214,17 @@
     }
     function loadDetailImages(photoUrls, container) {
       if (!photoUrls || !photoUrls.length) return;
-      appendImage(photoUrls[0], container);
-      if (photoUrls.length > 1) {
-        var index = 1;
-        var loadNextImage = function() {
-          if (index < photoUrls.length) {
-            appendImage(photoUrls[index], container);
-            index++;
-            setTimeout(loadNextImage, 100);
-          }
-        };
-        setTimeout(loadNextImage, 300);
-      }
-    }
-    function appendImage(url, container) {
-      if (!url) return;
-      var img = document.createElement("img");
-      img.src = url;
-      img.alt = "게시물 이미지";
-      img.loading = "lazy";
-      img.onerror = function() { this.style.display = "none"; };
-      container.appendChild(img);
+      var fragment = document.createDocumentFragment();
+      photoUrls.forEach(function(url) {
+        if (!url) return;
+        var img = document.createElement("img");
+        img.src = url;
+        img.alt = "게시물 이미지";
+        img.loading = "lazy";
+        img.onerror = function() { this.style.display = "none"; };
+        fragment.appendChild(img);
+      });
+      container.appendChild(fragment);
     }
     function formatContentWithTitleParagraph(content) {
       try {
@@ -226,6 +246,7 @@
     }
     function showList(saveState) {
       if (saveState === undefined) saveState = true;
+      console.log("showList 호출");
       document.getElementById("detail-view").style.display = "none";
       document.getElementById("masonry-grid").style.display = "block";
       fixLayout();
@@ -235,24 +256,26 @@
       }
     }
     window.addEventListener("popstate", function(event) {
+      console.log("popstate 이벤트 발생:", event.state);
       try {
-        if (event.state && event.state.postId !== undefined) showDetail(event.state.postId, false);
-        else showList(false);
+        var urlParams = new URLSearchParams(window.location.search);
+        var postId = urlParams.get("post");
+        if (postId !== null && postsData[postId]) {
+          showDetail(parseInt(postId), false);
+        } else {
+          showList(false);
+        }
       } catch (error) {
         console.error("히스토리 이벤트 오류:", error);
         showList(false);
       }
     });
     function fixLayout() {
-      if (document.getElementById("masonry-grid").style.display !== "none") {
-        clearTimeout(layoutTimeout);
-        layoutTimeout = setTimeout(function() {
-          if (msnry) {
-            msnry.layout();
-            setTimeout(function() { if (msnry) msnry.layout(); }, 1000);
-          }
-        }, 500);
-      }
+      if (document.getElementById("masonry-grid").style.display === "none") return;
+      clearTimeout(layoutTimeout);
+      layoutTimeout = setTimeout(function() {
+        if (msnry) msnry.layout();
+      }, 300);
     }
     function checkAndFixLayout() {
       if (document.getElementById("masonry-grid").style.display !== "none") {
@@ -283,21 +306,6 @@
         sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify(state));
       } catch (e) {
         console.error("세션 저장 오류:", e);
-      }
-    }
-    function restoreStateFromSession() {
-      try {
-        var stateJson = sessionStorage.getItem(SESSION_STATE_KEY);
-        if (stateJson) {
-          var state = JSON.parse(stateJson);
-          if (state.view === "detail" && state.postId !== undefined) {
-            var urlParams = new URLSearchParams(window.location.search);
-            var urlPostId = urlParams.get("post");
-            if (urlPostId === null) showDetail(state.postId, false);
-          }
-        }
-      } catch (e) {
-        console.error("세션 복원 오류:", e);
       }
     }
     function showErrorMessage() {
