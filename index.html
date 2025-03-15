@@ -195,8 +195,7 @@
     // 텍스트만 있는 카드 HTML 생성
     function createTextOnlyHTML(index) {
       var post = postsData[index];
-      return 
-        "<div class=\"card-text-only\">" +
+      return "<div class=\"card-text-only\">" +
         "<div class=\"card-excerpt\">" + post.content.replace(/<br>/g, " ").substring(0, 350) + "...</div>" +
         "<div class=\"card-date\">" + post.date + "</div>" +
         "</div>";
