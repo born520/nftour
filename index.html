@@ -200,7 +200,6 @@
         "<div class=\"card-date\">" + post.date + "</div>" +
         "</div>";
     }
-    
     // 상세 보기 표시 함수
     function showDetail(index, saveState) {
       if (saveState === undefined) saveState = true;
@@ -373,3 +372,144 @@
             
             // 추가 보정을 위해 1초 후 다시 한번 레이아웃 재계산
             setTimeout(function() {
+              if (msnry) msnry.layout();
+            }, 1000);
+          }
+        }, 500);
+      }
+    }
+    
+    // 레이아웃 상태 확인 및 복구 함수
+    function checkAndFixLayout() {
+      if (document.getElementById("masonry-grid").style.display !== "none") {
+        // 그리드 아이템이 겹쳐 있는지 확인
+        var items = document.querySelectorAll(".grid-item");
+        var needsFix = false;
+        
+        for (var i = 0; i < items.length; i++) {
+          for (var j = i + 1; j < items.length; j++) {
+            if (isOverlapping(items[i], items[j])) {
+              needsFix = true;
+              break;
+            }
+          }
+          if (needsFix) break;
+        }
+        
+        if (needsFix) {
+          // 레이아웃 문제가 발견되면 수정
+          console.log("레이아웃 문제 감지, 수정 중...");
+          fixLayout();
+        }
+      }
+    }
+    
+    // 두 요소가 겹치는지 확인하는 함수
+    function isOverlapping(el1, el2) {
+      var rect1 = el1.getBoundingClientRect();
+      var rect2 = el2.getBoundingClientRect();
+      
+      return !(rect1.bottom < rect2.top || 
+               rect1.top > rect2.bottom || 
+               rect1.right < rect2.left || 
+               rect1.left > rect2.right);
+    }
+    
+    // 세션에 상태 저장
+    function saveStateToSession(state) {
+      try {
+        sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.error("세션 저장 오류:", e);
+      }
+    }
+    
+    // 세션에서 상태 복원
+    function restoreStateFromSession() {
+      try {
+        var stateJson = sessionStorage.getItem(SESSION_STATE_KEY);
+        if (stateJson) {
+          var state = JSON.parse(stateJson);
+          if (state.view === "detail" && state.postId !== undefined) {
+            // URL 매개변수와 충돌 방지를 위해 URL 확인
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlPostId = urlParams.get("post");
+            
+            // URL에 post 매개변수가 없는 경우에만 세션에서 복원
+            if (urlPostId === null) {
+              showDetail(state.postId, false);
+            }
+          }
+        }
+      } catch (e) {
+        console.error("세션 복원 오류:", e);
+      }
+    }
+    
+    // 오류 메시지 표시
+    function showErrorMessage() {
+      var errorMessage = document.getElementById("error-message");
+      errorMessage.style.display = "block";
+      
+      // 3초 후 메시지 숨기기
+      setTimeout(function() {
+        errorMessage.style.display = "none";
+      }, 3000);
+    }
+    
+    // 페이지 가시성 변경 감지 (백그라운드에서 돌아올 때 레이아웃 수정)
+    document.addEventListener("visibilitychange", function() {
+      if (document.visibilityState === "visible") {
+        fixLayout();
+      }
+    });
+    
+    // 스크롤 이벤트에 대응하여 레이아웃 확인
+    var scrollTimeout;
+    window.addEventListener("scroll", function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        if (document.getElementById("masonry-grid").style.display !== "none") {
+          // 현재 보이는 뷰포트 내의 아이템들만 확인
+          var items = document.querySelectorAll(".grid-item");
+          var visibleItems = [];
+          
+          for (var i = 0; i < items.length; i++) {
+            if (isElementInViewport(items[i])) {
+              visibleItems.push(items[i]);
+            }
+          }
+          
+          if (visibleItems.length > 0) {
+            var isOverlappingDetected = false;
+            for (var i = 0; i < visibleItems.length; i++) {
+              for (var j = i + 1; j < visibleItems.length; j++) {
+                if (isOverlapping(visibleItems[i], visibleItems[j])) {
+                  isOverlappingDetected = true;
+                  break;
+                }
+              }
+              if (isOverlappingDetected) break;
+            }
+            
+            if (isOverlappingDetected) {
+              fixLayout();
+            }
+          }
+        }
+      }, 200);
+    });
+    
+    // 요소가 뷰포트 내에 있는지 확인
+    function isElementInViewport(el) {
+      var rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+  </script>
+</body>
+</html>
