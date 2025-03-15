@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>부산출발 특가모음</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <style>
     * {box-sizing: border-box; margin: 0; padding: 0;}
     body {font-family: "Noto Sans KR", sans-serif; background: #f5f5f5; padding: 20px; text-align: center;}
@@ -67,7 +66,16 @@
     var lastScrollPosition = 0;
     var msnry;
 
-    document.addEventListener("DOMContentLoaded", initializeApp);
+    // Masonry 라이브러리 동적 로드
+    var script = document.createElement("script");
+    script.src = "https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js";
+    script.onload = function() {
+      initializeApp();
+    };
+    script.onerror = function() {
+      showErrorMessage("Masonry 라이브러리 로드 실패");
+    };
+    document.head.appendChild(script);
 
     function safeExecute(fn, errorMessage) {
       try {
@@ -87,6 +95,7 @@
         var detailView = document.getElementById("detail-view");
 
         if (!grid || !detailView) throw new Error("DOM 요소 누락");
+        if (typeof Masonry === "undefined") throw new Error("Masonry 라이브러리 로드 실패");
         msnry = new Masonry(grid, {
           itemSelector: ".grid-item",
           columnWidth: 300,
