@@ -27,8 +27,6 @@
     .detail-view{display:none;background-color:white;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:30px;margin-bottom:30px;text-align:center}
     .detail-header{display:flex;justify-content:center;align-items:flex-start;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee;max-width:800px;margin-left:auto;margin-right:auto}
     .detail-title p{color:#666;font-size:14px}
-    .detail-title a{text-decoration:none;color:#1a73e8;font-size:16px;font-weight:500}
-    .detail-title a:hover{text-decoration:underline;color:#0d5bbd}
     .detail-content{line-height:1.8;margin-bottom:30px;font-size:16px;color:#333;max-width:800px;margin-left:auto;margin-right:auto;text-align:left}
     .first-paragraph{font-size:22px;font-weight:700;margin-bottom:20px;color:#000}
     .detail-images{display:flex;flex-direction:column;gap:20px;align-items:center;margin-bottom:30px}
@@ -48,12 +46,11 @@
   <div id="error-message" class="error-message">페이지에 문제가 발생했습니다. 새로고침을 눌러주세요.</div>
   <div class="container">
     <div class="header">
-      <h1>부산출발 특가모음</h1>
+      <h1><a href="#" onclick="showList(); return false;">부산출발 특가모음</a></h1>
     </div>
     <div id="detail-view" class="detail-view">
       <div class="detail-header">
         <div class="detail-title">
-          <a href="#" onclick="showList(); return false;">목록으로 돌아가기</a>
           <p id="detail-date"></p>
         </div>
       </div>
@@ -81,6 +78,7 @@
     var msnry;
     var layoutTimeout;
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    var lastScrollPosition = 0;
     document.addEventListener("DOMContentLoaded", function() {
       initializeApp();
       setInterval(checkAndFixLayout, 30000);
@@ -204,6 +202,7 @@
       try {
         var post = postsData[index];
         if (!post) throw new Error("게시물을 찾을 수 없습니다.");
+        lastScrollPosition = window.scrollY;
         document.getElementById("detail-date").textContent = post.date;
         var formattedContent = formatContentWithTitleParagraph(post.content);
         document.getElementById("detail-content").innerHTML = formattedContent;
@@ -264,6 +263,7 @@
         window.history.pushState({}, "", window.location.pathname);
         saveStateToSession({ view: "list" });
       }
+      window.scrollTo(0, lastScrollPosition);
     }
     window.addEventListener("popstate", function(event) {
       console.log("popstate 이벤트 발생:", event.state);
@@ -325,6 +325,7 @@
     }
     document.addEventListener("visibilitychange", function() {
       if (document.visibilityState === "visible") fixLayout();
+      window.scrollTo(0, lastScrollPosition);
     });
     var scrollTimeout;
     window.addEventListener("scroll", function() {
