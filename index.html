@@ -6,37 +6,32 @@
   <title>부산출발 특가모음</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Noto Sans KR",sans-serif;background:#f5f5f5;padding:20px;text-align:center}
-    .container{max-width:1600px;margin:0 auto}
-    .header{margin-bottom:30px;padding-bottom:15px;border-bottom:1px solid #eee}
-    .header h1{font-size:28px;color:#333}
-    .header a{color:#333;text-decoration:none}
-    .grid-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));grid-gap:20px}
-    .grid-item{background:white;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1);overflow:hidden;cursor:pointer;-webkit-transition:transform 0.3s;transition:transform 0.3s}
-    .grid-item:hover{-webkit-transform:translateY(-3px);transform:translateY(-3px);box-shadow:0 5px 10px rgba(0,0,0,0.15)}
-    .card-img img{width:100%;display:block}
-    .card-content{padding:15px}
-    .card-excerpt{font-size:14px;color:#555;line-height:1.5;margin-bottom:10px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
-    .card-date{font-size:12px;color:#999}
-    .card-text-only{padding:15px}
-    .card-text-only .card-excerpt{-webkit-line-clamp:8}
-    .detail-view{display:none;background:white;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:30px;margin-bottom:30px}
-    .detail-header{margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid #eee;max-width:800px;margin-left:auto;margin-right:auto}
-    .detail-title p{color:#666;font-size:14px}
-    .detail-content{line-height:1.8;margin-bottom:30px;font-size:16px;color:#333;max-width:800px;margin-left:auto;margin-right:auto;text-align:left}
-    .first-paragraph{font-size:22px;font-weight:700;margin-bottom:20px;color:#000}
-    .detail-images{display:-webkit-box;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;gap:20px;-webkit-box-align:center;align-items:center}
-    .detail-images img{max-width:800px;width:100%;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-    .refresh-button{position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:#1a73e8;color:white;border:none;border-radius:50%;box-shadow:0 3px 10px rgba(0,0,0,0.2);z-index:10;cursor:pointer}
-    .refresh-button svg{width:24px;height:24px}
-    .error-message{display:none;position:fixed;top:0;left:0;right:0;background:#f44336;color:white;padding:10px;z-index:1000}
-    .loading-spinner{position:absolute;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);padding:20px;color:#666}
-    @media (max-width:600px){
-      .grid-container{grid-template-columns:1fr}
-      body{padding:10px}
-      .detail-content{padding:0 10px}
-    }
+    * {box-sizing: border-box; margin: 0; padding: 0;}
+    body {font-family: "Noto Sans KR", sans-serif; background: #f5f5f5; padding: 20px; text-align: center;}
+    .container {max-width: 1600px; margin: 0 auto;}
+    .header {margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee;}
+    .header h1 {font-size: 28px; color: #333;}
+    .header a {color: #333; text-decoration: none;}
+    .masonry-container {position: relative; width: 100%;}
+    .grid-item {position: absolute; width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s;}
+    .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
+    .card-img img {width: 100%; display: block;}
+    .card-content {padding: 15px;}
+    .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; margin-bottom: 10px;}
+    .card-date {font-size: 12px; color: #999;}
+    .card-text-only {padding: 15px;}
+    .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
+    .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
+    .detail-title p {color: #666; font-size: 14px;}
+    .detail-content {line-height: 1.8; margin-bottom: 30px; font-size: 16px; color: #333; max-width: 800px; margin-left: auto; margin-right: auto; text-align: left;}
+    .first-paragraph {font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #000;}
+    .detail-images {display: flex; flex-direction: column; gap: 20px; align-items: center;}
+    .detail-images img {max-width: 800px; width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+    .refresh-button {position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: #1a73e8; color: white; border: none; border-radius: 50%; box-shadow: 0 3px 10px rgba(0,0,0,0.2); z-index: 10; cursor: pointer;}
+    .refresh-button svg {width: 24px; height: 24px;}
+    .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
+    .loading-spinner {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 20px; color: #666;}
+    @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {width: 100%;} }
   </style>
 </head>
 <body>
@@ -52,7 +47,7 @@
       <div id="detail-content" class="detail-content"></div>
       <div id="detail-images" class="detail-images"></div>
     </div>
-    <div class="grid-container" id="masonry-grid">
+    <div class="masonry-container" id="masonry-grid">
       <div id="loading-spinner" class="loading-spinner">로딩 중...</div>
     </div>
   </div>
@@ -71,6 +66,9 @@
     var batchSize = 10;
     var isLoadingMore = false;
     var lastScrollPosition = 0;
+    var columnCount = 3; // 열 수 (반응형으로 조정 가능)
+    var columnWidths = 300; // 카드 너비
+    var columnHeights = Array(columnCount).fill(0); // 각 열의 높이 추적
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -92,10 +90,12 @@
         var detailView = document.getElementById("detail-view");
 
         if (!grid || !detailView) throw new Error("DOM 요소 누락");
+        adjustColumnCount(); // 화면 크기에 따라 열 수 조정
         if (postId && postsData[postId]) {
           showDetail(parseInt(postId), false);
         } else {
-          if (!restoreStateFromSession()) loadInitialPosts();
+          showList(false);
+          loadInitialPosts();
         }
 
         window.addEventListener("scroll", function() {
@@ -104,18 +104,19 @@
             loadMorePosts();
           }
         });
+        window.addEventListener("resize", adjustColumnCount);
       }, "초기화 오류");
     }
 
-    function restoreStateFromSession() {
-      return safeExecute(function() {
-        var state = JSON.parse(sessionStorage.getItem(SESSION_STATE_KEY) || "{}");
-        if (state.view === "detail" && postsData[state.postId]) {
-          showDetail(state.postId, false);
-          return true;
-        }
-        return false;
-      }, "세션 복원 오류") || false;
+    function adjustColumnCount() {
+      var width = window.innerWidth;
+      if (width < 600) columnCount = 1;
+      else if (width < 900) columnCount = 2;
+      else columnCount = 3;
+      columnWidths = Math.min(300, Math.floor((width - 40) / columnCount)); // 40은 좌우 패딩
+      columnHeights = Array(columnCount).fill(0);
+      var grid = document.getElementById("masonry-grid");
+      if (grid) grid.style.width = (columnWidths * columnCount) + "px";
     }
 
     function loadInitialPosts() {
@@ -155,10 +156,12 @@
             '<div class="card-content"><div class="card-excerpt">' + post.content.replace(/<br>/g, " ").substring(0, 120) + '...</div>' +
             '<div class="card-date">' + post.date + '</div></div>' :
             createTextOnlyHTML(i);
+          card.style.width = columnWidths + "px";
           fragment.appendChild(card);
         }
 
         grid.appendChild(fragment);
+        positionCards(); // 카드 배치 및 공백 채우기
         currentIndex = end;
         if (spinner) spinner.style.display = currentIndex >= postsData.length ? "none" : "block";
       }, "추가 로드 오류");
@@ -171,6 +174,45 @@
         var post = postsData[index];
         return '<div class="card-text-only"><div class="card-excerpt">' + post.content.replace(/<br>/g, " ").substring(0, 350) + '...</div><div class="card-date">' + post.date + '</div></div>';
       }, "텍스트 HTML 오류") || '';
+    }
+
+    function positionCards() {
+      var grid = document.getElementById("masonry-grid");
+      var cards = grid.getElementsByClassName("grid-item");
+      columnHeights = Array(columnCount).fill(0);
+
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var minHeightIndex = columnHeights.indexOf(Math.min.apply(null, columnHeights));
+        card.style.left = (minHeightIndex * columnWidths) + "px";
+        card.style.top = columnHeights[minHeightIndex] + "px";
+        columnHeights[minHeightIndex] += card.offsetHeight + 20; // 20은 카드 간격
+      }
+
+      var maxHeight = Math.max.apply(null, columnHeights);
+      grid.style.height = maxHeight + "px";
+      fillEmptySpaces(cards, maxHeight); // 공백 채우기
+    }
+
+    function fillEmptySpaces(cards, maxHeight) {
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var cardHeight = card.offsetHeight;
+        var columnIndex = Math.floor(parseInt(card.style.left) / columnWidths);
+        var columnHeight = columnHeights[columnIndex];
+        var emptySpace = columnHeight - (parseInt(card.style.top) + cardHeight);
+
+        if (emptySpace > 50) { // 공백이 50px 이상일 때만 채움
+          var post = postsData[card.getAttribute("data-index")];
+          var excerpt = card.querySelector(".card-excerpt");
+          var fullContent = post.content.replace(/<br>/g, " ");
+          var currentText = excerpt.textContent;
+          var additionalText = fullContent.substring(currentText.length, currentText.length + Math.floor(emptySpace / 20) * 50); // 20px당 50자 추가
+          excerpt.textContent = currentText + additionalText;
+          columnHeights[columnIndex] = Math.max(columnHeights[columnIndex], parseInt(card.style.top) + card.offsetHeight + 20);
+        }
+      }
+      grid.style.height = Math.max.apply(null, columnHeights) + "px";
     }
 
     function showDetail(index, saveState) {
@@ -197,7 +239,7 @@
         grid.style.display = "none";
 
         if (saveState) {
-          window.history.pushState({ postId: index }, "", "?post=" + index);
+          window.history.pushState({ postId: index, view: "detail" }, "", "?post=" + index);
           sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify({ view: "detail", postId: index }));
         }
         window.scrollTo(0, 0);
@@ -243,22 +285,22 @@
         if (!detailView || !grid) return;
 
         detailView.style.display = "none";
-        grid.style.display = "grid";
+        grid.style.display = "block";
+        positionCards(); // 목록 표시 시 카드 재배치
         window.scrollTo(0, lastScrollPosition);
 
         if (saveState) {
-          window.history.pushState({}, "", window.location.pathname);
+          window.history.pushState({ view: "list" }, "", window.location.pathname);
           sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify({ view: "list" }));
         }
       }, "목록 표시 오류");
     }
 
-    window.addEventListener("popstate", function() {
+    window.addEventListener("popstate", function(event) {
       safeExecute(function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var postId = urlParams.get("post");
-        if (postId && postsData[postId]) {
-          showDetail(parseInt(postId), false);
+        var state = event.state || JSON.parse(sessionStorage.getItem(SESSION_STATE_KEY) || "{}");
+        if (state.view === "detail" && postsData[state.postId]) {
+          showDetail(state.postId, false);
         } else {
           showList(false);
         }
