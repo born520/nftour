@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>부산출발 특가모음</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <style>
     * {box-sizing: border-box; margin: 0; padding: 0;}
     body {font-family: "Noto Sans KR", sans-serif; background: #f5f5f5; padding: 20px; text-align: center;}
@@ -12,10 +13,11 @@
     .header {margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee;}
     .header h1 {font-size: 28px; color: #333;}
     .header a {color: #333; text-decoration: none;}
-    .masonry-container {position: relative; width: 100%; margin: 0 auto;}
-    .grid-item {position: absolute; width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s;}
+    .masonry-container {width: 100%; margin: 0 auto;}
+    .grid-item {width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; margin-bottom: 20px;}
     .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-    .card-img img {width: 100%; display: block; min-height: 200px;}
+    .card-img img {width: 100%; display: block; object-fit: cover;}
+    .card-title {padding: 15px; font-size: 18px; font-weight: 700; color: #333; line-height: 1.4; text-align: left;}
     .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
     .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
     .detail-title p {color: #666; font-size: 14px;}
@@ -27,7 +29,8 @@
     .refresh-button svg {width: 24px; height: 24px;}
     .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
     .loading-spinner {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 20px; color: #666;}
-    @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {width: 100%;} }
+    @media (max-width: 900px) { .grid-item {width: 45%;} }
+    @media (max-width: 600px) { .grid-item {width: 100%;} }
   </style>
 </head>
 <body>
@@ -62,10 +65,7 @@
     var batchSize = 10;
     var isLoadingMore = false;
     var lastScrollPosition = 0;
-    var columnCount = 3;
-    var columnWidths = 300;
-    var columnGap = 20;
-    var columnHeights = Array(columnCount).fill(0);
+    var msnry;
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -87,7 +87,13 @@
         var detailView = document.getElementById("detail-view");
 
         if (!grid || !detailView) throw new Error("DOM 요소 누락");
-        adjustColumnCount();
+        msnry = new Masonry(grid, {
+          itemSelector: ".grid-item",
+          columnWidth: 300,
+          gutter: 20,
+          percentPosition: false,
+          fitWidth: true
+        });
         if (postId && postsData[postId]) {
           showDetail(parseInt(postId), false);
         } else {
@@ -101,7 +107,6 @@
             loadMorePosts();
           }
         }, 200));
-        window.addEventListener("resize", debounce(adjustColumnCount, 200));
       }, "초기화 오류");
     }
 
@@ -111,22 +116,6 @@
         clearTimeout(timeout);
         timeout = setTimeout(func, wait);
       };
-    }
-
-    function adjustColumnCount() {
-      var width = window.innerWidth;
-      if (width < 600) columnCount = 1;
-      else if (width < 900) columnCount = 2;
-      else columnCount = 3;
-      columnWidths = Math.min(300, Math.floor((width - 40 - (columnCount - 1) * columnGap) / columnCount));
-      columnHeights = Array(columnCount).fill(0);
-      var grid = document.getElementById("masonry-grid");
-      if (grid) {
-        grid.style.width = (columnWidths * columnCount + columnGap * (columnCount - 1)) + "px";
-        if (grid.getElementsByClassName("grid-item").length > 0) {
-          positionCards(grid);
-        }
-      }
     }
 
     function loadInitialPosts() {
@@ -148,7 +137,7 @@
       safeExecute(function() {
         var grid = document.getElementById("masonry-grid");
         var spinner = document.getElementById("loading-spinner");
-        if (!grid) return;
+        if (!grid || !msnry) return;
 
         var fragment = document.createDocumentFragment();
         var end = Math.min(currentIndex + batchSize, postsData.length);
@@ -159,57 +148,22 @@
           card.className = "grid-item";
           card.setAttribute("data-index", i);
           card.onclick = function() { showDetail(this.getAttribute("data-index")); };
-          card.innerHTML = post.photos && post.photos.length && post.photos[0] ?
+          var firstParagraph = post.content.split("<br>")[0] || "제목 없음";
+          card.innerHTML = (post.photos && post.photos.length && post.photos[0] ?
             '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지"></div>' :
-            '<div class="card-img"><img src="https://via.placeholder.com/300" loading="lazy" alt="기본 이미지"></div>';
-          card.style.width = columnWidths + "px";
+            '<div class="card-img"><img src="https://via.placeholder.com/300" loading="lazy" alt="기본 이미지"></div>') +
+            '<div class="card-title">' + firstParagraph + '</div>';
           fragment.appendChild(card);
         }
 
         grid.appendChild(fragment);
-        positionCards(grid);
+        msnry.appended(fragment);
+        msnry.layout();
         currentIndex = end;
         if (spinner) spinner.style.display = currentIndex >= postsData.length ? "none" : "block";
       }, "추가 로드 오류");
 
       isLoadingMore = false;
-    }
-
-    function positionCards(grid) {
-      if (!grid) return;
-      var cards = grid.getElementsByClassName("grid-item");
-      if (!cards || cards.length === 0) return;
-      columnHeights = Array(columnCount).fill(0);
-
-      for (var i = 0; i < cards.length; i++) {
-        var card = cards[i];
-        var img = card.querySelector("img");
-        var minHeightIndex = columnHeights.indexOf(Math.min.apply(null, columnHeights));
-        card.style.left = (minHeightIndex * (columnWidths + columnGap)) + "px";
-        card.style.top = columnHeights[minHeightIndex] + "px";
-        var defaultHeight = 200; // 기본 높이
-        columnHeights[minHeightIndex] += defaultHeight + 20;
-
-        if (img.complete) {
-          columnHeights[minHeightIndex] = parseInt(card.style.top) + img.height + 20;
-        } else {
-          img.onload = function() {
-            var card = this.parentElement;
-            var minHeightIdx = columnHeights.indexOf(Math.min.apply(null, columnHeights));
-            card.style.top = columnHeights[minHeightIdx] + "px";
-            columnHeights[minHeightIdx] += this.height + 20;
-            grid.style.height = Math.max.apply(null, columnHeights) + "px";
-          };
-          img.onerror = function() {
-            var card = this.parentElement;
-            var minHeightIdx = columnHeights.indexOf(Math.min.apply(null, columnHeights));
-            card.style.top = columnHeights[minHeightIdx] + "px";
-            columnHeights[minHeightIdx] += defaultHeight + 20;
-            grid.style.height = Math.max.apply(null, columnHeights) + "px";
-          };
-        }
-      }
-      grid.style.height = Math.max.apply(null, columnHeights) + "px";
     }
 
     function showDetail(index, saveState) {
@@ -279,11 +233,11 @@
       safeExecute(function() {
         var detailView = document.getElementById("detail-view");
         var grid = document.getElementById("masonry-grid");
-        if (!detailView || !grid) return;
+        if (!detailView || !grid || !msnry) return;
 
         detailView.style.display = "none";
         grid.style.display = "block";
-        positionCards(grid);
+        msnry.layout();
         window.scrollTo(0, lastScrollPosition);
 
         if (saveState) {
