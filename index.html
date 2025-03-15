@@ -126,9 +126,13 @@
       console.log("renderGrid 호출");
       var grid = document.getElementById("masonry-grid");
       var spinner = document.getElementById("loading-spinner");
+      if (!grid) {
+        console.error("masonry-grid 요소를 찾을 수 없습니다.");
+        return;
+      }
       if (postsData.length === 0) {
         grid.innerHTML = '<p style="text-align: center; color: #666;">최근 게시물이 없습니다.</p>';
-        spinner.style.display = "none";
+        if (spinner) spinner.style.display = "none";
         return;
       }
       var fragment = document.createDocumentFragment();
@@ -149,7 +153,7 @@
       }
       grid.innerHTML = "";
       grid.appendChild(fragment);
-      spinner.style.display = "none";
+      if (spinner) spinner.style.display = "none";
       initializeMasonry();
       revealRemainingPosts();
     }
@@ -174,15 +178,21 @@
       var hiddenItems = document.querySelectorAll(".grid-item.hidden");
       if (hiddenItems.length === 0) return;
       var index = 0;
-      function revealNext() {
-        if (index < hiddenItems.length) {
+      var batchSize = 10;
+      function revealBatch() {
+        var end = Math.min(index + batchSize, hiddenItems.length);
+        for (; index < end; index++) {
           hiddenItems[index].classList.remove("hidden");
-          if (msnry) msnry.layout();
-          index++;
-          setTimeout(revealNext, 200);
+        }
+        if (index < hiddenItems.length) {
+          requestAnimationFrame(revealBatch);
+        } else if (msnry) {
+          msnry.layout();
         }
       }
-      setTimeout(revealNext, 500);
+      setTimeout(function() {
+        requestAnimationFrame(revealBatch);
+      }, 500);
     }
     function createTextOnlyHTML(index) {
       var post = postsData[index];
