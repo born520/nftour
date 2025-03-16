@@ -234,16 +234,16 @@
         console.log("Portrait 이미지 감지: ", img.src, "비율:", aspectRatio);
       }
 
-      // 이미지 높이 확인 및 80% 이상 여부 판단
+      // 이미지 높이 확인 및 70% 이상 여부 판단
       var card = img.closest(".grid-item");
       var cardHeight = parseFloat(getComputedStyle(card).height);
       var imgHeight = img.getBoundingClientRect().height;
-      var maxImgHeight = cardHeight * 0.8; // 카드 높이의 80%
+      var maxImgHeight = cardHeight * 0.7; // 카드 높이의 70%
       if (imgHeight >= maxImgHeight) {
         var excerpt = card.querySelector(".card-excerpt");
         if (excerpt) {
           excerpt.classList.add("limited-text");
-          console.log("이미지가 80% 이상 차지: ", img.src, "이미지 높이:", imgHeight, "최대 이미지 높이:", maxImgHeight);
+          console.log("이미지가 70% 이상 차지: ", img.src, "이미지 높이:", imgHeight, "최대 이미지 높이:", maxImgHeight);
         }
       }
     }
