@@ -15,14 +15,15 @@
   .masonry-container {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; grid-auto-flow: row;}
   .grid-item {width: 100%; height: 600px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column;}
   .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-  .card-img {width: 100%; height: 80%; overflow: hidden;}
-  .card-img img {width: 100%; height: 100%; display: block; object-fit: cover;}
-  .card-img img.landscape {width: 100%; height: auto; object-fit: contain; position: relative; top: 0; transform: none;}
+  .card-img {width: 100%; height: 80%; overflow: hidden; display: flex; align-items: flex-start; justify-content: center;}
+  .card-img img {width: 100%; height: auto; display: block; object-fit: contain;}
+  .card-img img.landscape {position: relative; top: 0; transform: none;}
   .card-content {flex: 1; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
   .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; padding-bottom: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;}
-  .card-excerpt.no-clamp {-webkit-line-clamp: unset; overflow: visible; max-height: none;}
-  .card-text-only {padding: 15px; flex: 1; display: flex; flex-direction: column;}
+  .card-excerpt.no-clamp {-webkit-line-clamp: unset; overflow: hidden; max-height: none;}
+  .card-text-only {padding: 15px; flex: 1; display: flex; flex-direction: column; overflow: hidden;}
+  .card-text-only .card-excerpt {overflow: hidden; display: -webkit-box; -webkit-line-clamp: unset; -webkit-box-orient: vertical;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
   .detail-title p {color: #666; font-size: 14px;}
@@ -33,10 +34,10 @@
   .refresh-button {position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: #1a73e8; color: white; border: none; border-radius: 50%; box-shadow: 0 3px 10px rgba(0,0,0,0.2); z-index: 10; cursor: pointer;}
   .refresh-button svg {width: 24px; height: 24px;}
   .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
-  .loading-spinner {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 20px; color: #666;}
+  .loading-spinner {display: block; padding: 20px; color: #666; text-align: center; margin-top: 20px;}
   @media (max-width: 1200px) { .masonry-container {grid-template-columns: repeat(3, 1fr);} }
-  @media (max-width: 900px) { .masonry-container {grid-template-columns: repeat(2, 1fr);} .grid-item {height: 550px;} .card-img {height: 75%;} .card-img img {height: 100%;} }
-  @media (max-width: 600px) { .masonry-container {grid-template-columns: 1fr;} .grid-item {height: 500px;} .card-img {height: 70%;} .card-img img {height: 100%;} body {padding: 10px;} .detail-content {padding: 0 10px;} }
+  @media (max-width: 900px) { .masonry-container {grid-template-columns: repeat(2, 1fr);} .grid-item {height: 550px;} .card-img {height: 75%;} .card-img img {height: auto;} }
+  @media (max-width: 600px) { .masonry-container {grid-template-columns: 1fr;} .grid-item {height: 500px;} .card-img {height: 70%;} .card-img img {height: auto;} body {padding: 10px;} .detail-content {padding: 0 10px;} }
 </style>
 </head>
 <body>
@@ -52,9 +53,8 @@
       <div id="detail-content" class="detail-content"></div>
       <div id="detail-images" class="detail-images"></div>
     </div>
-    <div class="masonry-container" id="masonry-grid">
-      <div id="loading-spinner" class="loading-spinner">로딩 중...</div>
-    </div>
+    <div class="masonry-container" id="masonry-grid"></div>
+    <div id="loading-spinner" class="loading-spinner">로딩 중...</div>
   </div>
   <button class="refresh-button" onclick="location.reload()">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -126,7 +126,7 @@
         var grid = document.getElementById("masonry-grid");
         if (!grid) return;
 
-        grid.innerHTML = postsData.length ? '<div id="loading-spinner" class="loading-spinner">로딩 중...</div>' : 
+        grid.innerHTML = postsData.length ? "" : 
           '<div style="text-align:center;padding:30px;color:#666;">최근 게시물 없음</div>';
         if (postsData.length) loadMorePosts();
       }, "초기 로드 오류");
@@ -184,17 +184,19 @@
       var aspectRatio = img.naturalWidth / img.naturalHeight;
       if (aspectRatio > 1) {
         img.classList.add("landscape");
-        var cardImg = img.parentNode; // .card-img 요소
-        var cardWidth = cardImg.offsetWidth; // 카드 너비
-        var imgHeight = (cardWidth / aspectRatio); // 이미지의 실제 높이 계산
+        var cardImg = img.parentNode;
+        var cardWidth = cardImg.offsetWidth;
+        var imgHeight = (cardWidth / aspectRatio);
         cardImg.style.height = imgHeight + "px";
         console.log("Landscape 이미지 감지: ", img.src, "비율:", aspectRatio, "높이:", imgHeight);
 
-        // 텍스트 제한 제거
         var cardExcerpt = img.closest(".grid-item").querySelector(".card-excerpt");
         if (cardExcerpt) {
           cardExcerpt.classList.add("no-clamp");
         }
+      } else {
+        var cardImg = img.parentNode;
+        cardImg.style.height = "100%";
       }
     }
 
