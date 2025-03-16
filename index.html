@@ -12,12 +12,12 @@
     .header { margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
-    .masonry-container { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: stretch; gap: 20px; padding: 0 10px; width: 100%; }
-    .masonry-item { flex: 0 0 calc(25% - (20px * 3 / 4)); margin-bottom: 20px; background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; padding-bottom: 15px; }
+    .masonry-container { display: flex; flex-wrap: wrap; gap: 20px; padding: 0 10px; width: 100%; }
+    .masonry-item { width: calc(25% - 15px); margin-bottom: 20px; background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; padding-bottom: 15px; }
     .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
-    @media (max-width: 1200px) { .masonry-item { flex: 0 0 calc(33.33% - (20px * 2 / 3)); } }
-    @media (max-width: 800px) { .masonry-item { flex: 0 0 calc(50% - (20px / 2)); } }
-    @media (max-width: 500px) { .masonry-item { flex: 0 0 calc(100% - 0px); } }
+    @media (max-width: 1200px) { .masonry-item { width: calc(33.33% - 13.33px); } }
+    @media (max-width: 800px) { .masonry-item { width: calc(50% - 10px); } }
+    @media (max-width: 500px) { .masonry-item { width: calc(100% - 0px); } }
     .card-img { width: 100%; }
     .card-img img { width: 100%; min-height: 200px; max-height: 400px; object-fit: cover; display: block; }
     .card-title { padding: 10px 15px 30px 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.5; text-align: left; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; max-height: 78px; }
