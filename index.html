@@ -21,6 +21,7 @@
   .card-content {flex: 1; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
   .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; padding-bottom: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;}
+  .card-excerpt.no-clamp {-webkit-line-clamp: unset; overflow: visible; max-height: none;}
   .card-text-only {padding: 15px; flex: 1; display: flex; flex-direction: column;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
@@ -188,6 +189,12 @@
         var imgHeight = (cardWidth / aspectRatio); // 이미지의 실제 높이 계산
         cardImg.style.height = imgHeight + "px";
         console.log("Landscape 이미지 감지: ", img.src, "비율:", aspectRatio, "높이:", imgHeight);
+
+        // 텍스트 제한 제거
+        var cardExcerpt = img.closest(".grid-item").querySelector(".card-excerpt");
+        if (cardExcerpt) {
+          cardExcerpt.classList.add("no-clamp");
+        }
       }
     }
 
