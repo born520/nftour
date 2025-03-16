@@ -13,7 +13,7 @@
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
     .masonry-container { 
-      column-count: 4; 
+      column-width: 300px; 
       column-gap: 20px; 
       column-fill: auto; 
       padding: 0 10px; 
@@ -23,6 +23,7 @@
     .masonry-item { 
       display: inline-block; 
       width: 100%; 
+      max-width: 300px; 
       margin-bottom: 20px; 
       background: white; 
       border: 2px solid #333; 
@@ -36,13 +37,14 @@
     }
     .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
     @media (max-width: 1200px) { 
-      .masonry-container { column-count: 3; } 
+      .masonry-container { column-width: 280px; } 
     }
     @media (max-width: 800px) { 
-      .masonry-container { column-count: 2; } 
+      .masonry-container { column-width: 260px; } 
     }
     @media (max-width: 500px) { 
-      .masonry-container { column-count: 1; } 
+      .masonry-container { column-width: auto; } 
+      .masonry-item { max-width: 100%; } 
     }
     .card-img { width: 100%; }
     .card-img img { width: 100%; min-height: 200px; max-height: 400px; object-fit: cover; display: block; }
