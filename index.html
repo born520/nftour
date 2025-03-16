@@ -13,10 +13,10 @@
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
     .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 0 10px; }
-    .grid-item { background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; }
+    .grid-item { width: 300px; background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; justify-content: flex-start; }
     .grid-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
     .card-img img { width: 100%; max-height: none; object-fit: contain; display: block; }
-    .card-title { padding: 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.4; text-align: left; }
+    .card-title { padding: 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.4; text-align: left; flex-grow: 1; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; }
     .detail-view { display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px; }
     .detail-header { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto; }
     .detail-title p { color: #666; font-size: 14px; }
@@ -123,10 +123,15 @@
           card.className = "grid-item";
           card.setAttribute("data-index", i);
           card.onclick = function() { showDetail(this.getAttribute("data-index")); };
-          var firstParagraph = post.content.split("<br>")[0] || "제목 없음";
+          var fullContent = post.content.replace(/<br>/g, "
+");
+          var firstParagraph = fullContent.split("
+")[0] || "제목 없음";
+          var additionalContent = fullContent.split("
+").slice(1).join("<br>").trim();
           card.innerHTML = (post.photos && post.photos.length && post.photos[0] ?
             '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지"></div>' : '') +
-            '<div class="card-title">' + firstParagraph + '</div>';
+            '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
           fragment.appendChild(card);
         }
         grid.appendChild(fragment);
