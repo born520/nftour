@@ -21,9 +21,9 @@
   .card-img img.portrait {max-height: 480px; object-fit: cover;}
   .card-content {padding: 15px 15px 20px 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-  .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: auto; flex: 1; padding-bottom: 10px;}
-  .card-text-only {padding: 15px 15px 20px 15px; flex: 1; overflow: auto; display: flex; flex-direction: column;}
-  .card-text-only .card-excerpt {flex: 1; padding-bottom: 10px;}
+  .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; flex: 1; padding-bottom: 10px; display: -webkit-box; -webkit-box-orient: vertical; text-overflow: ellipsis;}
+  .card-text-only {padding: 15px 15px 20px 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column;}
+  .card-text-only .card-excerpt {flex: 1; padding-bottom: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; text-overflow: ellipsis;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
   .detail-title p {color: #666; font-size: 14px;}
