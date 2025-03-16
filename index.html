@@ -1,281 +1,110 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>부산출발 특가모음</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    * {box-sizing: border-box; margin: 0; padding: 0;}
-    body {font-family: "Noto Sans KR", sans-serif; background: #f5f5f5; padding: 20px; text-align: center;}
-    .container {max-width: 1600px; margin: 0 auto;}
-    .header {margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee;}
-    .header h1 {font-size: 28px; color: #333;}
-    .header a {color: #333; text-decoration: none;}
-    .masonry-container {display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%;}
-    .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s;}
-    .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-    .card-img img {width: 100%; height: 200px; display: block; object-fit: cover;}
-    .card-content {padding: 15px;}
-    .card-title {font-size: 18px; font-weight: 700; color: #333; margin-bottom: 10px; line-height: 1.4;}
-    .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; max-height: 100px; overflow: hidden;}
-    .card-text-only {padding: 15px;}
-    .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
-    .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
-    .detail-title p {color: #666; font-size: 14px;}
-    .detail-content {line-height: 1.8; margin-bottom: 30px; font-size: 16px; color: #333; max-width: 800px; margin-left: auto; margin-right: auto; text-align: left;}
-    .first-paragraph {font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #000;}
-    .detail-images {display: flex; flex-direction: column; gap: 20px; align-items: center;}
-    .detail-images img {max-width: 800px; width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
-    .refresh-button {position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: #1a73e8; color: white; border: none; border-radius: 50%; box-shadow: 0 3px 10px rgba(0,0,0,0.2); z-index: 10; cursor: pointer;}
-    .refresh-button svg {width: 24px; height: 24px;}
-    .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
-    .loading-spinner {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 20px; color: #666;}
-    @media (max-width: 900px) { .masonry-container {grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 600px) { .masonry-container {grid-template-columns: 1fr;} body {padding: 10px;} .detail-content {padding: 0 10px;} }
-  </style>
-</head>
-<body>
-  <div id="error-message" class="error-message">페이지 오류 - 새로고침 필요</div>
-  <div class="container">
-    <div class="header">
-      <h1><a href="#" onclick="showList();return false;">부산출발 특가모음</a></h1>
-    </div>
-    <div id="detail-view" class="detail-view">
-      <div class="detail-header">
-        <div class="detail-title"><p id="detail-date"></p></div>
-      </div>
-      <div id="detail-content" class="detail-content"></div>
-      <div id="detail-images" class="detail-images"></div>
-    </div>
-    <div class="masonry-container" id="masonry-grid">
-      <div id="loading-spinner" class="loading-spinner">로딩 중...</div>
-    </div>
-  </div>
-  <button class="refresh-button" onclick="location.reload()">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M23 4v6h-6"></path>
-      <path d="M1 20v-6h6"></path>
-      <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-      <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-    </svg>
-  </button>
-  <script>
-    var postsData = [{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"크루즈투어&예인투어"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"티엔엠투어[대구지사]"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"유니언재팬"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"전일본트랜드 ANT"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"라스투어 ☎051-442-3939"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"BG투어 부산점051-463-0005"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"NFTour(엔에프투어) 051-710-8600"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)유럽으로투어"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)일본여행"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)컴투어"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"⚜️  투어.B  ☎️   051-632-3900"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)윈하나로투어 (호주/뉴질랜드 현지직영)"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"B2B여행제휴네트워크"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"에어부산전문판매대리점 더 투어"},{"title":"테스트 게시물 1","content":"두 번째 줄 테스트<br>세 번째 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"W투어 ☎ 051-467-3200"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"크루즈투어&예인투어"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"티엔엠투어[대구지사]"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"유니언재팬"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"전일본트랜드 ANT"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"라스투어 ☎051-442-3939"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"BG투어 부산점051-463-0005"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"NFTour(엔에프투어) 051-710-8600"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)유럽으로투어"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)일본여행"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)컴투어"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"⚜️  투어.B  ☎️   051-632-3900"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"(주)윈하나로투어 (호주/뉴질랜드 현지직영)"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"B2B여행제휴네트워크"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"에어부산전문판매대리점 더 투어"},{"title":"테스트 게시물 2","content":"추가 내용 테스트<br>또 다른 줄","photos":["https://via.placeholder.com/300x200"],"bandName":"W투어 ☎ 051-467-3200"}];
-    var SESSION_STATE_KEY = "bandPostsState";
-    var currentIndex = 0;
-    var batchSize = 10;
-    var isLoadingMore = false;
-    var lastScrollPosition = 0;
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>특가 모음</title><style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+      background-color: #fafafa;
+    }
+    .container {
+      width: 100%;
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 10px;
+      column-count: 6;
+      column-gap: 10px;
+    }
+    .card {
+      position: relative;
+      break-inside: avoid;
+      background-color: white;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      width: 100%;
+      border: 2px solid transparent;
+    }
+    .card.expanded {
+      border: 2px solid red;
+      transform: scale(1.05);
+      animation: blink-border 1s infinite;
+      z-index: 10;
+    }
+    @keyframes blink-border {
+      0% { border-color: red; }
+      50% { border-color: transparent; }
+      100% { border-color: red; }
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .card p {
+      padding: 15px;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .card p.excerpt {
+      font-size: 14px;
+      color: #333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+    .card-content {
+      display: none;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+    .card-content img {
+      margin-top: 10px;
+    }
+    .card.expanded .excerpt {
+      display: none;
+    }
+    .card.expanded .card-content {
+      display: block;
+    }
+    @media (max-width: 1800px) { .container { column-count: 5; } }
+    @media (max-width: 1500px) { .container { column-count: 4; } }
+    @media (max-width: 1200px) { .container { column-count: 3; } }
+    @media (max-width: 900px) { .container { column-count: 2; } }
+    @media (max-width: 600px) {
+      .container { column-count: 1; }
+      body { font-size: 12px; }
+      .card p.excerpt { font-size: 12px; }
+    }
+  </style></head><body><div class="container"></div><script>
+    var currentOpenCard = null;
 
-    document.addEventListener("DOMContentLoaded", initializeApp);
-
-    function safeExecute(fn, errorMessage) {
-      try {
-        return fn();
-      } catch (e) {
-        console.error(errorMessage || "오류 발생", e);
-        showErrorMessage("오류: " + (errorMessage || e.message));
-        return null;
+    function toggleCard(index) {
+      var clickedCard = document.getElementById('card-' + index);
+      
+      if (currentOpenCard && currentOpenCard !== clickedCard) {
+        currentOpenCard.classList.remove('expanded');
+        currentOpenCard.style.animation = 'none';
+        currentOpenCard.style.transform = 'scale(1)';
+      }
+      
+      clickedCard.classList.toggle('expanded');
+      
+      if (clickedCard.classList.contains('expanded')) {
+        currentOpenCard = clickedCard;
+        setTimeout(() => {
+          const cardPosition = clickedCard.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({ top: cardPosition - 10, behavior: 'smooth' });
+        }, 300);
+      } else {
+        clickedCard.style.animation = 'none';
+        clickedCard.style.transform = 'scale(1)';
+        currentOpenCard = null;
       }
     }
-
-    function initializeApp() {
-      console.log("initializeApp 시작");
-      safeExecute(function() {
-        var urlParams = new URLSearchParams(window.location.search);
-        var postId = urlParams.get("post");
-        var grid = document.getElementById("masonry-grid");
-        var detailView = document.getElementById("detail-view");
-
-        if (!grid || !detailView) throw new Error("DOM 요소 누락");
-        console.log("URL 파라미터 postId:", postId);
-        if (postId && postsData[postId]) {
-          showDetail(parseInt(postId), false);
-        } else {
-          showList(false);
-          loadInitialPosts();
-        }
-
-        window.addEventListener("scroll", debounce(function() {
-          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && 
-              currentIndex < postsData.length && !isLoadingMore) {
-            console.log("스크롤 이벤트: 추가 게시물 로드");
-            loadMorePosts();
-          }
-        }, 200));
-      }, "초기화 오류");
-    }
-
-    function debounce(func, wait) {
-      var timeout;
-      return function() {
-        clearTimeout(timeout);
-        timeout = setTimeout(func, wait);
-      };
-    }
-
-    function loadInitialPosts() {
-      console.log("loadInitialPosts 시작");
-      safeExecute(function() {
-        currentIndex = 0;
-        var grid = document.getElementById("masonry-grid");
-        if (!grid) return;
-
-        grid.innerHTML = postsData.length ? '<div id="loading-spinner" class="loading-spinner">로딩 중...</div>' : 
-          '<div style="text-align:center;padding:30px;color:#666;">최근 게시물 없음</div>';
-        if (postsData.length) loadMorePosts();
-      }, "초기 로드 오류");
-    }
-
-    function loadMorePosts() {
-      if (isLoadingMore) return;
-      isLoadingMore = true;
-      console.log("loadMorePosts 시작, currentIndex:", currentIndex);
-
-      safeExecute(function() {
-        var grid = document.getElementById("masonry-grid");
-        var spinner = document.getElementById("loading-spinner");
-        if (!grid) return;
-
-        var fragment = document.createDocumentFragment();
-        var end = Math.min(currentIndex + batchSize, postsData.length);
-
-        for (var i = currentIndex; i < end; i++) {
-          var post = postsData[i];
-          var card = document.createElement("div");
-          card.className = "grid-item";
-          card.setAttribute("data-index", i);
-          card.onclick = (function(index) {
-            return function() { showDetail(index); };
-          })(i);
-          card.innerHTML = post.photos && post.photos.length && post.photos[0] ?
-            '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지" onerror="this.parentNode.parentNode.innerHTML=createTextOnlyHTML(' + i + ')"></div>' +
-            '<div class="card-content"><div class="card-title">' + post.title + '</div><div class="card-excerpt">' + (post.content || "") + '</div></div>' :
-            createTextOnlyHTML(i);
-          fragment.appendChild(card);
-        }
-
-        grid.appendChild(fragment);
-        currentIndex = end;
-        if (spinner) spinner.style.display = currentIndex >= postsData.length ? "none" : "block";
-        console.log("loadMorePosts 완료, 새 currentIndex:", currentIndex);
-      }, "추가 로드 오류");
-
-      isLoadingMore = false;
-    }
-
-    function createTextOnlyHTML(index) {
-      return safeExecute(function() {
-        var post = postsData[index];
-        return '<div class="card-text-only"><div class="card-title">' + post.title + '</div><div class="card-excerpt">' + (post.content || "") + '</div></div>';
-      }, "텍스트 HTML 오류") || '<div class="card-text-only"><div class="card-title">제목 로드 실패</div><div class="card-excerpt">내용 로드 실패</div></div>';
-    }
-
-    function showDetail(index, saveState) {
-      saveState = saveState !== false;
-      console.log("showDetail 호출, index:", index);
-      safeExecute(function() {
-        var post = postsData[index];
-        if (!post) return;
-
-        lastScrollPosition = window.scrollY;
-        var detailView = document.getElementById("detail-view");
-        var grid = document.getElementById("masonry-grid");
-        var detailDate = document.getElementById("detail-date");
-        var detailContent = document.getElementById("detail-content");
-        var imagesContainer = document.getElementById("detail-images");
-
-        if (!detailView || !grid || !detailDate || !detailContent || !imagesContainer) throw new Error("상세 DOM 요소 누락");
-
-        detailDate.textContent = "";
-        detailContent.innerHTML = formatContentWithTitleParagraph(post.title + "<br>" + (post.content || ""));
-        imagesContainer.innerHTML = "";
-        if (post.photos && post.photos.length) loadDetailImages(post.photos, imagesContainer);
-
-        detailView.style.display = "block";
-        grid.style.display = "none";
-
-        if (saveState) {
-          window.history.pushState({ postId: index, view: "detail" }, "", "?post=" + index);
-          sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify({ view: "detail", postId: index }));
-        }
-        window.scrollTo(0, 0);
-      }, "상세 표시 오류");
-    }
-
-    function loadDetailImages(photoUrls, container) {
-      console.log("loadDetailImages 호출, 사진 수:", photoUrls.length);
-      safeExecute(function() {
-        var fragment = document.createDocumentFragment();
-        for (var i = 0; i < photoUrls.length; i++) {
-          var url = photoUrls[i];
-          if (!url) continue;
-          var img = document.createElement("img");
-          img.src = url;
-          img.alt = "게시물 이미지";
-          img.loading = "lazy";
-          img.onerror = function() { this.style.display = "none"; console.log("이미지 로드 실패:", this.src); };
-          fragment.appendChild(img);
-        }
-        container.appendChild(fragment);
-      }, "이미지 로드 오류");
-    }
-
-    function formatContentWithTitleParagraph(content) {
-      return safeExecute(function() {
-        var paragraphs = content.split("<br>").filter(function(p) { return p.trim(); });
-        if (paragraphs.length) {
-          var html = '<p class="first-paragraph">' + paragraphs[0] + '</p>';
-          for (var i = 1; i < paragraphs.length; i++) {
-            html += "<p>" + paragraphs[i] + "</p>";
-          }
-          return html;
-        }
-        return content || "내용 없음";
-      }, "컨텐츠 포맷 오류") || content || "내용 없음";
-    }
-
-    function showList(saveState) {
-      saveState = saveState !== false;
-      console.log("showList 호출");
-      safeExecute(function() {
-        var detailView = document.getElementById("detail-view");
-        var grid = document.getElementById("masonry-grid");
-        if (!detailView || !grid) return;
-
-        detailView.style.display = "none";
-        grid.style.display = "grid";
-        window.scrollTo(0, lastScrollPosition);
-
-        if (saveState) {
-          window.history.pushState({ view: "list" }, "", window.location.pathname);
-          sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify({ view: "list" }));
-        }
-      }, "목록 표시 오류");
-    }
-
-    window.addEventListener("popstate", function(event) {
-      console.log("popstate 이벤트 발생");
-      safeExecute(function() {
-        var state = event.state || JSON.parse(sessionStorage.getItem(SESSION_STATE_KEY) || "{}");
-        if (state.view === "detail" && postsData[state.postId]) {
-          showDetail(state.postId, false);
-        } else {
-          showList(false);
-        }
-      }, "히스토리 오류");
-    });
-
-    function showErrorMessage(message) {
-      message = message || "오류 발생 - 새로고침 필요";
-      console.log("오류 메시지 표시:", message);
-      var errorMessage = document.getElementById("error-message");
-      if (!errorMessage) return;
-      errorMessage.textContent = message;
-      errorMessage.style.display = "block";
-      setTimeout(function() { errorMessage.style.display = "none"; }, 3000);
-    }
-  </script>
-</body>
-</html>
+  </script></body></html>
