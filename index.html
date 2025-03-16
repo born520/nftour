@@ -13,9 +13,9 @@
   .header h1 {font-size: 28px; color: #333;}
   .header a {color: #333; text-decoration: none;}
   .masonry-container {display: grid; gap: 20px; width: 100%; grid-auto-flow: row;}
-  .grid-item {width: 100%; height: 600px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column;}
+  .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column;}
   .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-  .card-img {width: 100%; height: 80%; overflow: hidden;}
+  .card-img {width: 100%; overflow: hidden;}
   .card-img img {width: 100%; height: 100%; display: block; object-fit: cover;}
   .card-img img.landscape {width: 100%; height: auto; object-fit: contain; position: relative; top: 0; transform: none;}
   .card-content {flex: 1; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden;}
@@ -34,9 +34,9 @@
   .refresh-button svg {width: 24px; height: 24px;}
   .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
   .loading-spinner {display: block; padding: 20px; color: #666; text-align: center; margin-top: 20px;}
-  @media (max-width: 1200px) { .grid-item {height: 600px;} .card-img {height: 80%;} .card-img img {height: 100%;} }
-  @media (max-width: 900px) { .grid-item {height: 550px;} .card-img {height: 75%;} .card-img img {height: 100%;} }
-  @media (max-width: 600px) { .grid-item {height: 500px;} .card-img {height: 70%;} .card-img img {height: 100%;} body {padding: 10px;} .detail-content {padding: 0 10px;} }
+  @media (max-width: 1200px) { }
+  @media (max-width: 900px) { }
+  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} }
 </style>
 </head>
 <body>
@@ -70,7 +70,8 @@
     var batchSize = 10;
     var isLoadingMore = false;
     var lastScrollPosition = 0;
-    var MAX_COLUMNS = 5;
+    var MAX_COLUMNS = 8;
+    var BASE_HEIGHT = 600;
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -79,18 +80,36 @@
       if (!masonryContainer) return;
 
       var width = window.innerWidth;
-      var columns;
+      var columns, cardHeight, imgHeightPercentage;
       if (width <= 600) {
         columns = Math.max(2, Math.floor(MAX_COLUMNS / 4));
+        cardHeight = BASE_HEIGHT * (MAX_COLUMNS / 4) / columns;
+        imgHeightPercentage = 70;
       } else if (width <= 900) {
         columns = Math.max(3, Math.floor(MAX_COLUMNS / 3));
+        cardHeight = BASE_HEIGHT * (MAX_COLUMNS / 3) / columns;
+        imgHeightPercentage = 75;
       } else if (width <= 1200) {
         columns = Math.max(4, Math.floor(MAX_COLUMNS / 2));
+        cardHeight = BASE_HEIGHT * (MAX_COLUMNS / 2) / columns;
+        imgHeightPercentage = 80;
       } else {
         columns = MAX_COLUMNS;
+        cardHeight = BASE_HEIGHT * (MAX_COLUMNS / MAX_COLUMNS) / columns;
+        imgHeightPercentage = 80;
       }
       masonryContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-      console.log("열 갯수 설정:", columns);
+
+      // 모든 grid-item에 높이 적용
+      var gridItems = document.querySelectorAll(".grid-item");
+      gridItems.forEach(function(item) {
+        item.style.height = `${cardHeight}px`;
+        var cardImg = item.querySelector(".card-img");
+        if (cardImg) {
+          cardImg.style.height = `${imgHeightPercentage}%`;
+        }
+      });
+      console.log("열 갯수:", columns, "카드 높이:", cardHeight, "이미지 높이 비율:", imgHeightPercentage);
     }
 
     window.addEventListener("resize", setColumnCount);
@@ -197,6 +216,7 @@
             img.onerror = function() { this.parentNode.parentNode.innerHTML = createTextOnlyHTML(this.closest(".grid-item").getAttribute("data-index")); };
           }
         });
+        setColumnCount();
       }, "추가 로드 오류");
 
       isLoadingMore = false;
@@ -306,6 +326,7 @@
           window.history.pushState({ view: "list" }, "", window.location.pathname);
           sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify({ view: "list" }));
         }
+        setColumnCount();
       }, "목록 표시 오류");
     }
 
