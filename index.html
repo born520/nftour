@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>부산출발 특가모음</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "Noto Sans KR", sans-serif; background: #f5f5f5; padding: 20px; text-align: center; }
@@ -12,11 +13,11 @@
     .header { margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
-    .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 0 10px; }
-    .grid-item { background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; }
+    .masonry-grid { position: relative; width: 100%; }
+    .grid-item { width: 250px; background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; margin-bottom: 20px; }
     .grid-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
     .card-img img { width: 100%; height: 150px; object-fit: cover; display: block; }
-    .card-title { padding: 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.4; text-align: left; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+    .card-title { padding: 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.4; text-align: left; min-height: 50px; display: flex; align-items: center; }
     .detail-view { display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px; }
     .detail-header { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto; }
     .detail-title p { color: #666; font-size: 14px; }
@@ -43,7 +44,7 @@
       <div id="detail-content" class="detail-content"></div>
       <div id="detail-images" class="detail-images"></div>
     </div>
-    <div class="grid-container" id="grid">
+    <div class="masonry-grid" id="grid">
       <div id="loading-spinner" class="loading-spinner">로딩 중...</div>
     </div>
   </div>
@@ -62,6 +63,7 @@
     var batchSize = 10;
     var isLoadingMore = false;
     var lastScrollPosition = 0;
+    var msnry;
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -76,13 +78,20 @@
         var grid = document.getElementById("grid");
         var detailView = document.getElementById("detail-view");
         if (!grid || !detailView) throw new Error("DOM 요소 누락");
+        msnry = new Masonry(grid, {
+          itemSelector: ".grid-item",
+          columnWidth: 250,
+          gutter: 20,
+          percentPosition: false,
+          fitWidth: true
+        });
         if (postId && postsData[postId]) { showDetail(parseInt(postId), false); }
         else { showList(false); loadInitialPosts(); }
         window.addEventListener("scroll", debounce(function() {
-          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && currentIndex < postsData.length && !isLoadingMore) {
+          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200 && currentIndex < postsData.length && !isLoadingMore) {
             loadMorePosts();
           }
-        }, 200));
+        }, 100));
       }, "초기화 오류");
     }
 
@@ -108,7 +117,7 @@
       safeExecute(function() {
         var grid = document.getElementById("grid");
         var spinner = document.getElementById("loading-spinner");
-        if (!grid) return;
+        if (!grid || !msnry) return;
         var fragment = document.createDocumentFragment();
         var end = Math.min(currentIndex + batchSize, postsData.length);
         for (var i = currentIndex; i < end; i++) {
@@ -124,6 +133,8 @@
           fragment.appendChild(card);
         }
         grid.appendChild(fragment);
+        msnry.appended(fragment);
+        msnry.layout();
         currentIndex = end;
         if (spinner) spinner.style.display = currentIndex >= postsData.length ? "none" : "block";
       }, "추가 로드 오류");
@@ -192,9 +203,10 @@
       safeExecute(function() {
         var detailView = document.getElementById("detail-view");
         var grid = document.getElementById("grid");
-        if (!detailView || !grid) return;
+        if (!detailView || !grid || !msnry) return;
         detailView.style.display = "none";
-        grid.style.display = "grid";
+        grid.style.display = "block";
+        msnry.layout();
         window.scrollTo(0, lastScrollPosition);
         if (saveState) {
           window.history.pushState({ view: "list" }, "", window.location.pathname);
