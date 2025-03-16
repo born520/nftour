@@ -3640,11 +3640,11 @@
           var additionalContent = fullContent.split("\n").slice(1).join("<br>").trim();
           var cardContent = "";
           if (post.photos && post.photos.length && post.photos[0]) {
-            cardContent = '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지" onerror="this.style.display='none';"></div>' +
-                         '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
+            cardContent = '<div class="card-img"><img src="' + post.photos[0].replace(/"/g, "&quot;") + '" loading="lazy" alt="게시물 이미지" onerror="this.style.display=\'none\';"></div>' +
+                         '<div class="card-title">' + firstParagraph.replace(/"/g, "&quot;") + (additionalContent ? "<br>" + additionalContent.replace(/"/g, "&quot;") : "") + '</div>';
           } else {
             card.classList.add("no-image");
-            cardContent = '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
+            cardContent = '<div class="card-title">' + firstParagraph.replace(/"/g, "&quot;") + (additionalContent ? "<br>" + additionalContent.replace(/"/g, "&quot;") : "") + '</div>';
           }
           card.innerHTML = cardContent;
           fragment.appendChild(card);
