@@ -12,59 +12,82 @@
     .header { margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
-    .masonry-container { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 0px; 
-      padding: 0 10px; 
-      width: 100%; 
-      max-width: 1600px; 
+    .masonry-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0px; /* gap 제거 */
+      padding: 0 10px;
+      width: 100%;
+      max-width: 1600px;
+      justify-content: flex-start; /* 카드를 왼쪽부터 순차적으로 배치 */
     }
-    .masonry-item { 
-      width: 220px; 
-      flex: 0 0 auto; 
-      margin-bottom: 20px; 
-      background: white; 
-      border: 2px solid #333; 
-      border-radius: 8px; 
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-      overflow: hidden; 
-      cursor: pointer; 
-      transition: transform 0.3s; 
-      padding-bottom: 15px; 
+    .masonry-item {
+      width: 220px; /* 카드 너비 고정 */
+      flex: 0 0 220px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 220px */
+      margin-bottom: 20px;
+      background: white;
+      border: 2px solid #333;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+      padding-bottom: 15px;
+      box-sizing: border-box; /* 너비 계산 시 패딩과 보더 포함 */
+      margin-right: 20px;
+    }
+    .masonry-item:nth-child(7n) {
+        margin-right: 0;
     }
     .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
-    @media (max-width: 1200px) { 
-      .masonry-item { width: 210px; } 
+    @media (max-width: 1600px) {
+        .masonry-container{
+            justify-content: space-between;
+        }
+      .masonry-item {
+          margin-right: 0;
+      }
     }
-    @media (max-width: 800px) { 
-      .masonry-item { width: 200px; } 
+    @media (max-width: 1200px) {
+      .masonry-item {
+        width: 210px;
+        flex: 0 0 210px;
+      }
     }
-    @media (max-width: 500px) { 
-      .masonry-item { width: 100%; } 
+    @media (max-width: 800px) {
+      .masonry-item {
+        width: 200px;
+        flex: 0 0 200px;
+      }
+    }
+    @media (max-width: 500px) {
+      .masonry-item {
+        width: 100%;
+        flex: 0 0 100%;
+      }
     }
     .card-img { width: 100%; }
     .card-img img { width: 100%; min-height: 160px; max-height: 320px; object-fit: cover; display: block; }
-    .card-title { 
-      padding: 10px 15px 30px 15px; 
-      font-size: 16px; 
-      font-weight: 500; 
-      color: #333; 
-      line-height: 1.5; 
-      text-align: left; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      display: -webkit-box; 
-      -webkit-box-orient: vertical; 
-      -webkit-line-clamp: 3; 
-      max-height: 78px; 
+    .card-title {
+      padding: 10px 15px 30px 15px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      line-height: 1.5;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      max-height: 78px;
     }
     .card-title .title { font-size: 16px; font-weight: 500; }
     .card-title .additional { font-size: 14px; font-weight: 400; color: #666; }
-    .masonry-item.no-image .card-title { 
-      max-height: 300px; 
-      -webkit-line-clamp: 10; 
-      padding: 20px 15px 35px 15px; 
+    .masonry-item.no-image .card-title {
+      max-height: 300px;
+      -webkit-line-clamp: 10;
+      padding: 20px 15px 35px 15px;
     }
     .masonry-item.no-image .card-title .title { font-size: 16px; font-weight: 500; }
     .masonry-item.no-image .card-title .additional { font-size: 14px; font-weight: 400; color: #666; }
@@ -3654,10 +3677,11 @@
         if (!masonry) return;
         masonry.innerHTML = "";
         spinner.style.display = "block";
-        if (postsData.length) loadMorePosts();
-        else {
-          masonry.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">최근 게시물 없음</div>';
-          spinner.style.display = "none";
+        if (postsData.length > 0) {
+          loadMorePosts();
+        } else {
+           masonry.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">최근 게시물 없음</div>';
+           spinner.style.display = "none";
         }
       }, "초기 로드 오류");
     }
@@ -3682,11 +3706,11 @@
           var additionalContent = fullContent.split("\n").slice(1).join("<br>").trim();
           var cardContent = "";
           if (post.photos && post.photos.length && post.photos[0]) {
-            cardContent = '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지" onerror="this.style.display=\'none\';"></div>' +
-                         '<div class="card-title"><span class="title">' + firstParagraph + '</span>' + (additionalContent ? '<br><span class="additional">' + additionalContent + '</span>' : "") + '</div>';
+            cardContent = `<div class="card-img"><img src="${post.photos[0]}" loading="lazy" alt="게시물 이미지" onerror="this.style.display='none';"></div>
+              <div class="card-title"><span class="title">${firstParagraph}</span>${additionalContent ? `<br><span class="additional">${additionalContent}</span>` : ""}</div>`;
           } else {
             card.classList.add("no-image");
-            cardContent = '<div class="card-title"><span class="title">' + firstParagraph + '</span>' + (additionalContent ? '<br><span class="additional">' + additionalContent + '</span>' : "") + '</div>';
+            cardContent = `<div class="card-title"><span class="title">${firstParagraph}</span>${additionalContent ? `<br><span class="additional">${additionalContent}</span>` : ""}</div>`;
           }
           card.innerHTML = cardContent;
           fragment.appendChild(card);
