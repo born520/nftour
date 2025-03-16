@@ -13,59 +13,58 @@
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
     .masonry-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0px; /* gap 제거 */
-      padding: 0 10px;
-      width: 100%;
-      max-width: 1600px;
-      justify-content: flex-start; /* 카드를 왼쪽부터 순차적으로 배치 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px; /* 간격 제거 */
+    padding: 0 10px;
+    width: 100%;
+    max-width: 1600px;
+    justify-content: flex-start; /* 왼쪽 정렬 유지 */
+    /* 추가: 너비 계산을 명확히 하기 위해 flex-basis 제거 및 margin 조정 */
+  }
+  .masonry-item {
+    width: 220px; /* 카드 너비 고정 */
+    /* flex: 0 0 220px; 제거하고 너비만으로 제어 */
+    margin: 0 20px 20px 0; /* 오른쪽과 아래쪽 마진만 설정 */
+    background: white;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+    padding-bottom: 15px;
+    box-sizing: border-box; /* 패딩과 보더 포함 */
+  }
+  /* 행 끝 처리: 7번째마다 오른쪽 마진 제거 */
+  .masonry-item:nth-child(7n) {
+    margin-right: 0;
+  }
+  .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
+  @media (max-width: 1600px) {
+    .masonry-container {
+      justify-content: space-between; /* 공간 분배로 배치 조정 */
     }
     .masonry-item {
-      width: 220px; /* 카드 너비 고정 */
-      flex: 0 0 220px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 220px */
-      margin-bottom: 20px;
-      background: white;
-      border: 2px solid #333;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s;
-      padding-bottom: 15px;
-      box-sizing: border-box; /* 너비 계산 시 패딩과 보더 포함 */
-      margin-right: 20px;
+      margin-right: 0; /* 미디어 쿼리에서 마진 초기화 */
     }
-    .masonry-item:nth-child(7n) {
-        margin-right: 0;
+  }
+  @media (max-width: 1200px) {
+    .masonry-item {
+      width: 210px;
     }
-    .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
-    @media (max-width: 1600px) {
-        .masonry-container{
-            justify-content: space-between;
-        }
-      .masonry-item {
-          margin-right: 0;
-      }
+  }
+  @media (max-width: 800px) {
+    .masonry-item {
+      width: 200px;
     }
-    @media (max-width: 1200px) {
-      .masonry-item {
-        width: 210px;
-        flex: 0 0 210px;
-      }
+  }
+  @media (max-width: 500px) {
+    .masonry-item {
+      width: 100%;
+      margin-right: 0; /* 모바일에서 마진 제거 */
     }
-    @media (max-width: 800px) {
-      .masonry-item {
-        width: 200px;
-        flex: 0 0 200px;
-      }
-    }
-    @media (max-width: 500px) {
-      .masonry-item {
-        width: 100%;
-        flex: 0 0 100%;
-      }
-    }
+  }
     .card-img { width: 100%; }
     .card-img img { width: 100%; min-height: 160px; max-height: 320px; object-fit: cover; display: block; }
     .card-title {
