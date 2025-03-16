@@ -12,17 +12,17 @@
   .header {margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee;}
   .header h1 {font-size: 28px; color: #333;}
   .header a {color: #333; text-decoration: none;}
-  .masonry-container {display: grid; gap: 20px; width: 100%; grid-auto-flow: row;}
-  .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: block;}
+  .masonry-container {display: grid; gap: 20px; width: 100%; grid-auto-flow: row; align-items: stretch;}
+  .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; height: 600px;}
   .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-  .card-img {width: 100%; overflow: hidden; position: relative;}
+  .card-img {width: 100%; height: 70%; overflow: hidden; position: relative;}
   .card-img img {width: 100%; height: 100%; display: block; object-fit: cover;}
-  .card-img img.landscape {width: 100%; height: auto; object-fit: contain; position: relative; top: 0; transform: none;}
-  .card-content {padding: 10px; overflow: hidden; position: relative; top: 0;}
+  .card-img img.landscape {width: 100%; height: 100%; object-fit: contain;}
+  .card-content {padding: 10px; flex: 1; overflow: hidden; position: relative;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
   .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;}
   .card-excerpt.no-clamp {-webkit-line-clamp: unset; overflow: visible; max-height: none;}
-  .card-text-only {padding: 15px; overflow: hidden; position: relative; top: 0;}
+  .card-text-only {padding: 15px; flex: 1; overflow: hidden; position: relative;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
   .detail-title p {color: #666; font-size: 14px;}
@@ -36,7 +36,7 @@
   .loading-spinner {display: block; padding: 20px; color: #666; text-align: center; margin-top: 20px;}
   @media (max-width: 1200px) { }
   @media (max-width: 900px) { }
-  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} }
+  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {height: 720px;} .card-img {height: 60%;}}
 </style>
 </head>
 <body>
@@ -73,7 +73,7 @@
     var lastScrollPosition = 0;
     var MAX_COLUMNS = 4;
     var BASE_HEIGHT = 600;
-    var BASE_IMG_HEIGHT_PERCENTAGE = 80;
+    var BASE_IMG_HEIGHT_PERCENTAGE = 70;
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -86,11 +86,11 @@
       if (width <= 600) {
         columns = Math.max(2, Math.floor(MAX_COLUMNS * 0.5));
         cardHeight = BASE_HEIGHT * 1.2;
-        imgHeightPercentage = 70;
+        imgHeightPercentage = 60;
       } else if (width <= 900) {
         columns = Math.max(3, Math.floor(MAX_COLUMNS * 0.75));
         cardHeight = BASE_HEIGHT * 1.1;
-        imgHeightPercentage = 75;
+        imgHeightPercentage = 65;
       } else {
         columns = MAX_COLUMNS;
         cardHeight = BASE_HEIGHT;
@@ -104,10 +104,6 @@
         var cardImg = item.querySelector(".card-img");
         if (cardImg) {
           cardImg.style.height = `${imgHeightPercentage}%`;
-        }
-        var cardContent = item.querySelector(".card-content, .card-text-only");
-        if (cardContent) {
-          cardContent.style.marginTop = "0";
         }
       });
       console.log("열 갯수:", columns, "카드 높이:", cardHeight, "이미지 높이 비율:", imgHeightPercentage);
@@ -226,12 +222,7 @@
       var aspectRatio = img.naturalWidth / img.naturalHeight;
       if (aspectRatio > 1) {
         img.classList.add("landscape");
-        var cardImg = img.parentNode;
-        var cardWidth = cardImg.offsetWidth;
-        var imgHeight = (cardWidth / aspectRatio);
-        cardImg.style.height = imgHeight + "px";
-        console.log("Landscape 이미지 감지: ", img.src, "비율:", aspectRatio, "높이:", imgHeight);
-
+        console.log("Landscape 이미지 감지: ", img.src, "비율:", aspectRatio);
         var cardExcerpt = img.closest(".grid-item").querySelector(".card-excerpt");
         if (cardExcerpt) {
           cardExcerpt.classList.add("no-clamp");
