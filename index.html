@@ -22,6 +22,7 @@
   .card-content {padding: 15px 15px 20px 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
   .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; flex: 1; padding-bottom: 10px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; text-overflow: ellipsis;}
+  .card-excerpt.limited-text {-webkit-line-clamp: 2;}
   .card-text-only {padding: 15px 15px 20px 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column;}
   .card-text-only .card-excerpt {flex: 1; padding-bottom: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 10; text-overflow: ellipsis;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
@@ -35,9 +36,9 @@
   .refresh-button svg {width: 24px; height: 24px;}
   .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
   .loading-spinner {display: block; padding: 20px; color: #666; text-align: center; margin-top: 20px;}
-  @media (max-width: 1200px) { .grid-item {height: 540px;} .card-img {max-height: 432px;} .card-excerpt {-webkit-line-clamp: 4;}}
-  @media (max-width: 900px) { .grid-item {height: 480px;} .card-img {max-height: 384px;} .card-excerpt {-webkit-line-clamp: 3;}}
-  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {height: 420px;} .card-img {max-height: 336px;} .card-excerpt {-webkit-line-clamp: 2;}}
+  @media (max-width: 1200px) { .grid-item {height: 540px;} .card-img {max-height: 432px;} .card-excerpt {-webkit-line-clamp: 4;} .card-excerpt.limited-text {-webkit-line-clamp: 2;}}
+  @media (max-width: 900px) { .grid-item {height: 480px;} .card-img {max-height: 384px;} .card-excerpt {-webkit-line-clamp: 3;} .card-excerpt.limited-text {-webkit-line-clamp: 2;}}
+  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {height: 420px;} .card-img {max-height: 336px;} .card-excerpt {-webkit-line-clamp: 2;} .card-excerpt.limited-text {-webkit-line-clamp: 1;}}
 </style>
 </head>
 <body>
@@ -231,6 +232,19 @@
       } else {
         img.classList.add("portrait");
         console.log("Portrait 이미지 감지: ", img.src, "비율:", aspectRatio);
+      }
+
+      // 이미지 높이 확인 및 80% 이상 여부 판단
+      var card = img.closest(".grid-item");
+      var cardHeight = parseFloat(getComputedStyle(card).height);
+      var imgHeight = img.getBoundingClientRect().height;
+      var maxImgHeight = cardHeight * 0.8; // 카드 높이의 80%
+      if (imgHeight >= maxImgHeight) {
+        var excerpt = card.querySelector(".card-excerpt");
+        if (excerpt) {
+          excerpt.classList.add("limited-text");
+          console.log("이미지가 80% 이상 차지: ", img.src, "이미지 높이:", imgHeight, "최대 이미지 높이:", maxImgHeight);
+        }
       }
     }
 
