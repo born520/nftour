@@ -12,14 +12,16 @@
     .header { margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
-    .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 0 10px; }
-    .grid-item { width: 300px; background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; height: 400px; }
-    .grid-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
-    .card-img { flex: 0 0 350px; position: relative; overflow: hidden; }
-    .card-img img { width: 100%; height: 350px; object-fit: cover; display: block; position: absolute; top: 0; left: 0; }
-    .card-title { padding: 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.4; text-align: left; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; max-height: 50px; flex: 0 0 auto; }
-    .grid-item.vertical-long .card-title { display: none; }
-    .grid-item.no-image .card-title { max-height: 380px; -webkit-line-clamp: 12; padding: 20px; }
+    .masonry-container { column-count: 4; column-gap: 20px; padding: 0 10px; }
+    @media (max-width: 1200px) { .masonry-container { column-count: 3; } }
+    @media (max-width: 800px) { .masonry-container { column-count: 2; } }
+    @media (max-width: 500px) { .masonry-container { column-count: 1; } }
+    .masonry-item { break-inside: avoid; margin-bottom: 20px; width: 100%; background: white; border: 2px solid #333; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: inline-block; }
+    .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
+    .card-img { width: 100%; }
+    .card-img img { width: 100%; min-height: 200px; max-height: 400px; object-fit: cover; display: block; }
+    .card-title { padding: 15px; font-size: 16px; font-weight: 500; color: #333; line-height: 1.4; text-align: left; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; max-height: 72px; }
+    .masonry-item.no-image .card-title { max-height: 300px; -webkit-line-clamp: 10; padding: 20px; }
     .detail-view { display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px; }
     .detail-header { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto; }
     .detail-title p { color: #666; font-size: 14px; }
@@ -46,7 +48,7 @@
       <div id="detail-content" class="detail-content"></div>
       <div id="detail-images" class="detail-images"></div>
     </div>
-    <div class="grid-container" id="grid"></div>
+    <div class="masonry-container" id="masonry"></div>
     <div id="loading-spinner" class="loading-spinner">로딩 중...</div>
   </div>
   <button class="refresh-button" onclick="location.reload()">
@@ -3585,9 +3587,9 @@
       safeExecute(function() {
         var urlParams = new URLSearchParams(window.location.search);
         var postId = urlParams.get("post");
-        var grid = document.getElementById("grid");
+        var masonry = document.getElementById("masonry");
         var detailView = document.getElementById("detail-view");
-        if (!grid || !detailView) throw new Error("DOM 요소 누락");
+        if (!masonry || !detailView) throw new Error("DOM 요소 누락");
         if (postId && postsData[postId]) { showDetail(parseInt(postId), false); }
         else { showList(false); loadInitialPosts(); }
         window.addEventListener("scroll", debounce(function() {
@@ -3608,14 +3610,14 @@
     function loadInitialPosts() {
       safeExecute(function() {
         currentIndex = 0;
-        var grid = document.getElementById("grid");
+        var masonry = document.getElementById("masonry");
         var spinner = document.getElementById("loading-spinner");
-        if (!grid) return;
-        grid.innerHTML = "";
+        if (!masonry) return;
+        masonry.innerHTML = "";
         spinner.style.display = "block";
         if (postsData.length) loadMorePosts();
         else {
-          grid.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">최근 게시물 없음</div>';
+          masonry.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">최근 게시물 없음</div>';
           spinner.style.display = "none";
         }
       }, "초기 로드 오류");
@@ -3625,15 +3627,15 @@
       if (isLoadingMore) return;
       isLoadingMore = true;
       safeExecute(function() {
-        var grid = document.getElementById("grid");
+        var masonry = document.getElementById("masonry");
         var spinner = document.getElementById("loading-spinner");
-        if (!grid) return;
+        if (!masonry) return;
         var fragment = document.createDocumentFragment();
         var end = Math.min(currentIndex + batchSize, postsData.length);
         for (var i = currentIndex; i < end; i++) {
           var post = postsData[i];
           var card = document.createElement("div");
-          card.className = "grid-item";
+          card.className = "masonry-item";
           card.setAttribute("data-index", i);
           card.onclick = function() { showDetail(this.getAttribute("data-index")); };
           var fullContent = post.content.replace(/<br>/g, "\n");
@@ -3641,32 +3643,16 @@
           var additionalContent = fullContent.split("\n").slice(1).join("<br>").trim();
           var cardContent = "";
           if (post.photos && post.photos.length && post.photos[0]) {
-            var img = new Image();
-            img.src = post.photos[0];
-            img.onload = function() {
-              var aspectRatio = this.width / this.height;
-              if (aspectRatio < 0.75) {
-                card.classList.add("vertical-long");
-                cardContent = '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지" onerror="this.style.display=\'none\';"></div>';
-              } else {
-                cardContent = '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지" onerror="this.style.display=\'none\';"></div>' +
-                             '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
-              }
-              card.innerHTML = cardContent;
-            };
-            img.onerror = function() {
-              card.classList.add("no-image");
-              cardContent = '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
-              card.innerHTML = cardContent;
-            };
+            cardContent = '<div class="card-img"><img src="' + post.photos[0] + '" loading="lazy" alt="게시물 이미지" onerror="this.style.display=\'none\';"></div>' +
+                         '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
           } else {
             card.classList.add("no-image");
             cardContent = '<div class="card-title">' + firstParagraph + (additionalContent ? "<br>" + additionalContent : "") + '</div>';
-            card.innerHTML = cardContent;
           }
+          card.innerHTML = cardContent;
           fragment.appendChild(card);
         }
-        grid.appendChild(fragment);
+        masonry.appendChild(fragment);
         currentIndex = end;
         spinner.style.display = currentIndex >= postsData.length ? "none" : "block";
       }, "추가 로드 오류");
@@ -3680,18 +3666,18 @@
         if (!post) return;
         lastScrollPosition = window.scrollY;
         var detailView = document.getElementById("detail-view");
-        var grid = document.getElementById("grid");
+        var masonry = document.getElementById("masonry");
         var spinner = document.getElementById("loading-spinner");
         var detailDate = document.getElementById("detail-date");
         var detailContent = document.getElementById("detail-content");
         var imagesContainer = document.getElementById("detail-images");
-        if (!detailView || !grid || !detailDate || !detailContent || !imagesContainer) return;
+        if (!detailView || !masonry || !detailDate || !detailContent || !imagesContainer) return;
         detailDate.textContent = post.date;
         detailContent.innerHTML = formatContentWithTitleParagraph(post.content);
         imagesContainer.innerHTML = "";
         if (post.photos && post.photos.length) loadDetailImages(post.photos, imagesContainer);
         detailView.style.display = "block";
-        grid.style.display = "none";
+        masonry.style.display = "none";
         spinner.style.display = "none";
         if (saveState) {
           window.history.pushState({ postId: index, view: "detail" }, "", "?post=" + index);
@@ -3736,11 +3722,11 @@
       saveState = saveState !== false;
       safeExecute(function() {
         var detailView = document.getElementById("detail-view");
-        var grid = document.getElementById("grid");
+        var masonry = document.getElementById("masonry");
         var spinner = document.getElementById("loading-spinner");
-        if (!detailView || !grid) return;
+        if (!detailView || !masonry) return;
         detailView.style.display = "none";
-        grid.style.display = "grid";
+        masonry.style.display = "block";
         spinner.style.display = currentIndex < postsData.length ? "block" : "none";
         window.scrollTo(0, lastScrollPosition);
         if (saveState) {
