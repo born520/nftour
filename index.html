@@ -15,14 +15,14 @@
   .masonry-container {display: grid; gap: 20px; width: 100%; grid-auto-flow: row; align-items: stretch;}
   .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; height: 600px;}
   .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-  .card-img {width: 100%; height: 400px; overflow: hidden; position: relative; flex-shrink: 0;}
+  .card-img {width: 100%; height: auto; max-height: 480px; overflow: hidden; position: relative; flex-shrink: 0;}
   .card-img img {width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;}
-  .card-img img.landscape {object-fit: contain; object-position: top;}
+  .card-img img.landscape {object-fit: contain; object-position: top; max-height: 480px;}
+  .card-img img.portrait {max-height: 480px; object-fit: cover;}
   .card-content {padding: 15px; flex: 1; overflow: hidden;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-  .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;}
-  .card-excerpt.no-clamp {-webkit-line-clamp: unset; overflow: visible; max-height: none;}
-  .card-text-only {padding: 15px; flex: 1; overflow: hidden;}
+  .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: auto;}
+  .card-text-only {padding: 15px; flex: 1; overflow: auto;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
   .detail-title p {color: #666; font-size: 14px;}
@@ -34,9 +34,9 @@
   .refresh-button svg {width: 24px; height: 24px;}
   .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
   .loading-spinner {display: block; padding: 20px; color: #666; text-align: center; margin-top: 20px;}
-  @media (max-width: 1200px) { .grid-item {height: 540px;} .card-img {height: 360px;}}
-  @media (max-width: 900px) { .grid-item {height: 480px;} .card-img {height: 320px;}}
-  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {height: 420px;} .card-img {height: 280px;}}
+  @media (max-width: 1200px) { .grid-item {height: 540px;} .card-img {max-height: 432px;}}
+  @media (max-width: 900px) { .grid-item {height: 480px;} .card-img {max-height: 384px;}}
+  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {height: 420px;} .card-img {max-height: 336px;}}
 </style>
 </head>
 <body>
@@ -73,7 +73,7 @@
     var lastScrollPosition = 0;
     var MAX_COLUMNS = 4;
     var BASE_HEIGHT = 600;
-    var BASE_IMG_HEIGHT = 400;
+    var BASE_IMG_HEIGHT = 480;
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -86,19 +86,19 @@
       if (width <= 600) {
         columns = Math.max(2, Math.floor(MAX_COLUMNS * 0.5));
         cardHeight = BASE_HEIGHT * 0.7; /* 420px */
-        imgHeight = BASE_IMG_HEIGHT * 0.7; /* 280px */
+        imgHeight = BASE_IMG_HEIGHT * 0.7; /* 336px */
       } else if (width <= 900) {
         columns = Math.max(3, Math.floor(MAX_COLUMNS * 0.75));
         cardHeight = BASE_HEIGHT * 0.8; /* 480px */
-        imgHeight = BASE_IMG_HEIGHT * 0.8; /* 320px */
+        imgHeight = BASE_IMG_HEIGHT * 0.8; /* 384px */
       } else if (width <= 1200) {
         columns = MAX_COLUMNS;
         cardHeight = BASE_HEIGHT * 0.9; /* 540px */
-        imgHeight = BASE_IMG_HEIGHT * 0.9; /* 360px */
+        imgHeight = BASE_IMG_HEIGHT * 0.9; /* 432px */
       } else {
         columns = MAX_COLUMNS;
         cardHeight = BASE_HEIGHT; /* 600px */
-        imgHeight = BASE_IMG_HEIGHT; /* 400px */
+        imgHeight = BASE_IMG_HEIGHT; /* 480px */
       }
       masonryContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 
@@ -107,10 +107,10 @@
         item.style.height = `${cardHeight}px`;
         var cardImg = item.querySelector(".card-img");
         if (cardImg) {
-          cardImg.style.height = `${imgHeight}px`;
+          cardImg.style.maxHeight = `${imgHeight}px`;
         }
       });
-      console.log("열 갯수:", columns, "카드 높이:", cardHeight, "이미지 높이:", imgHeight);
+      console.log("열 갯수:", columns, "카드 높이:", cardHeight, "이미지 최대 높이:", imgHeight);
     }
 
     window.addEventListener("resize", setColumnCount);
@@ -227,6 +227,9 @@
       if (aspectRatio > 1) {
         img.classList.add("landscape");
         console.log("Landscape 이미지 감지: ", img.src, "비율:", aspectRatio);
+      } else {
+        img.classList.add("portrait");
+        console.log("Portrait 이미지 감지: ", img.src, "비율:", aspectRatio);
       }
     }
 
@@ -263,7 +266,7 @@
 
         if (saveState) {
           window.history.pushState({ postId: index, view: "detail" }, "", "?post=" + index);
-          sessionStorage.setietItem(SESSION_STATE_KEY, JSON.stringify({ view: "detail", postId: index }));
+          sessionStorage.setItem(SESSION_STATE_KEY, JSON.stringify({ view: "detail", postId: index }));
         }
         window.scrollTo(0, 0);
       }, "상세 표시 오류");
