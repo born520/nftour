@@ -19,10 +19,11 @@
   .card-img img {width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;}
   .card-img img.landscape {object-fit: contain; object-position: top; max-height: 480px;}
   .card-img img.portrait {max-height: 480px; object-fit: cover;}
-  .card-content {padding: 15px; flex: 1; overflow: hidden;}
+  .card-content {padding: 15px 15px 20px 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-  .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: auto;}
-  .card-text-only {padding: 15px; flex: 1; overflow: auto;}
+  .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: auto; flex: 1; padding-bottom: 10px;}
+  .card-text-only {padding: 15px 15px 20px 15px; flex: 1; overflow: auto; display: flex; flex-direction: column;}
+  .card-text-only .card-excerpt {flex: 1; padding-bottom: 10px;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
   .detail-title p {color: #666; font-size: 14px;}
@@ -85,20 +86,20 @@
       var columns, cardHeight, imgHeight;
       if (width <= 600) {
         columns = Math.max(2, Math.floor(MAX_COLUMNS * 0.5));
-        cardHeight = BASE_HEIGHT * 0.7; /* 420px */
-        imgHeight = BASE_IMG_HEIGHT * 0.7; /* 336px */
+        cardHeight = BASE_HEIGHT * 0.7;
+        imgHeight = BASE_IMG_HEIGHT * 0.7;
       } else if (width <= 900) {
         columns = Math.max(3, Math.floor(MAX_COLUMNS * 0.75));
-        cardHeight = BASE_HEIGHT * 0.8; /* 480px */
-        imgHeight = BASE_IMG_HEIGHT * 0.8; /* 384px */
+        cardHeight = BASE_HEIGHT * 0.8;
+        imgHeight = BASE_IMG_HEIGHT * 0.8;
       } else if (width <= 1200) {
         columns = MAX_COLUMNS;
-        cardHeight = BASE_HEIGHT * 0.9; /* 540px */
-        imgHeight = BASE_IMG_HEIGHT * 0.9; /* 432px */
+        cardHeight = BASE_HEIGHT * 0.9;
+        imgHeight = BASE_IMG_HEIGHT * 0.9;
       } else {
         columns = MAX_COLUMNS;
-        cardHeight = BASE_HEIGHT; /* 600px */
-        imgHeight = BASE_IMG_HEIGHT; /* 480px */
+        cardHeight = BASE_HEIGHT;
+        imgHeight = BASE_IMG_HEIGHT;
       }
       masonryContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 
