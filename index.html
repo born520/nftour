@@ -13,15 +13,15 @@
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
     .masonry-container { 
-      column-width: 220px; 
-      column-gap: 0px; 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 0px; 
       padding: 0 10px; 
       width: 100%; 
       max-width: 1600px; 
     }
     .masonry-item { 
-      display: inline-block; 
-      width: 220px; 
+      flex: 0 0 220px; 
       margin-bottom: 20px; 
       background: white; 
       border: 2px solid #333; 
@@ -31,20 +31,16 @@
       cursor: pointer; 
       transition: transform 0.3s; 
       padding-bottom: 15px; 
-      break-inside: avoid; 
     }
     .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
     @media (max-width: 1200px) { 
-      .masonry-container { column-width: 210px; } 
-      .masonry-item { width: 210px; } 
+      .masonry-item { flex: 0 0 210px; } 
     }
     @media (max-width: 800px) { 
-      .masonry-container { column-width: 200px; } 
-      .masonry-item { width: 200px; } 
+      .masonry-item { flex: 0 0 200px; } 
     }
     @media (max-width: 500px) { 
-      .masonry-container { column-width: auto; } 
-      .masonry-item { width: 100%; } 
+      .masonry-item { flex: 0 0 100%; } 
     }
     .card-img { width: 100%; }
     .card-img img { width: 100%; min-height: 160px; max-height: 320px; object-fit: cover; display: block; }
