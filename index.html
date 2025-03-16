@@ -13,14 +13,15 @@
     .header h1 { font-size: 28px; color: #333; }
     .header a { color: #333; text-decoration: none; }
     .masonry-container { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(23%, 1fr)); 
-      gap: 20px; 
+      column-count: 4; 
+      column-gap: 20px; 
+      column-fill: auto; 
       padding: 0 10px; 
       width: 100%; 
       max-width: 1600px; 
     }
     .masonry-item { 
+      display: inline-block; 
       width: 100%; 
       margin-bottom: 20px; 
       background: white; 
@@ -31,16 +32,17 @@
       cursor: pointer; 
       transition: transform 0.3s; 
       padding-bottom: 15px; 
+      break-inside: avoid; 
     }
     .masonry-item:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
     @media (max-width: 1200px) { 
-      .masonry-container { grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); } 
+      .masonry-container { column-count: 3; } 
     }
     @media (max-width: 800px) { 
-      .masonry-container { grid-template-columns: repeat(auto-fill, minmax(45%, 1fr)); } 
+      .masonry-container { column-count: 2; } 
     }
     @media (max-width: 500px) { 
-      .masonry-container { grid-template-columns: 1fr; } 
+      .masonry-container { column-count: 1; } 
     }
     .card-img { width: 100%; }
     .card-img img { width: 100%; min-height: 200px; max-height: 400px; object-fit: cover; display: block; }
