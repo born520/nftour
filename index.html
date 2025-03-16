@@ -13,16 +13,16 @@
   .header h1 {font-size: 28px; color: #333;}
   .header a {color: #333; text-decoration: none;}
   .masonry-container {display: grid; gap: 20px; width: 100%; grid-auto-flow: row; align-items: stretch;}
-  .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; height: 600px;}
+  .grid-item {width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; transition: transform 0.3s; display: flex; flex-direction: column; min-height: 300px;}
   .grid-item:hover {transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.15);}
-  .card-img {width: 100%; height: 70%; overflow: hidden; position: relative;}
-  .card-img img {width: 100%; height: 100%; display: block; object-fit: cover;}
-  .card-img img.landscape {width: 100%; height: 100%; object-fit: contain;}
-  .card-content {padding: 10px; flex: 1; overflow: hidden; position: relative;}
+  .card-img {width: 100%; height: 200px; overflow: hidden; position: relative; flex-shrink: 0;}
+  .card-img img {width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;}
+  .card-img img.landscape {object-fit: contain; object-position: top;}
+  .card-content {padding: 15px; flex: 1; overflow: hidden;}
   .card-title {font-size: 16px; font-weight: 700; color: #333; margin-bottom: 8px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
   .card-excerpt {font-size: 14px; color: #555; line-height: 1.5; word-wrap: break-word; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;}
   .card-excerpt.no-clamp {-webkit-line-clamp: unset; overflow: visible; max-height: none;}
-  .card-text-only {padding: 15px; flex: 1; overflow: hidden; position: relative;}
+  .card-text-only {padding: 15px; flex: 1; overflow: hidden;}
   .detail-view {display: none; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;}
   .detail-header {margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; max-width: 800px; margin-left: auto; margin-right: auto;}
   .detail-title p {color: #666; font-size: 14px;}
@@ -35,8 +35,8 @@
   .error-message {display: none; position: fixed; top: 0; left: 0; right: 0; background: #f44336; color: white; padding: 10px; z-index: 1000;}
   .loading-spinner {display: block; padding: 20px; color: #666; text-align: center; margin-top: 20px;}
   @media (max-width: 1200px) { }
-  @media (max-width: 900px) { }
-  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .grid-item {height: 720px;} .card-img {height: 60%;}}
+  @media (max-width: 900px) { .card-img {height: 180px;}}
+  @media (max-width: 600px) { body {padding: 10px;} .detail-content {padding: 0 10px;} .card-img {height: 150px;}}
 </style>
 </head>
 <body>
@@ -72,8 +72,8 @@
     var isLoadingMore = false;
     var lastScrollPosition = 0;
     var MAX_COLUMNS = 4;
-    var BASE_HEIGHT = 600;
-    var BASE_IMG_HEIGHT_PERCENTAGE = 70;
+    var BASE_HEIGHT = 300;
+    var BASE_IMG_HEIGHT = 200;
 
     document.addEventListener("DOMContentLoaded", initializeApp);
 
@@ -82,31 +82,16 @@
       if (!masonryContainer) return;
 
       var width = window.innerWidth;
-      var columns, cardHeight, imgHeightPercentage;
+      var columns;
       if (width <= 600) {
         columns = Math.max(2, Math.floor(MAX_COLUMNS * 0.5));
-        cardHeight = BASE_HEIGHT * 1.2;
-        imgHeightPercentage = 60;
       } else if (width <= 900) {
         columns = Math.max(3, Math.floor(MAX_COLUMNS * 0.75));
-        cardHeight = BASE_HEIGHT * 1.1;
-        imgHeightPercentage = 65;
       } else {
         columns = MAX_COLUMNS;
-        cardHeight = BASE_HEIGHT;
-        imgHeightPercentage = BASE_IMG_HEIGHT_PERCENTAGE;
       }
       masonryContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-
-      var gridItems = document.querySelectorAll(".grid-item");
-      gridItems.forEach(function(item) {
-        item.style.height = `${cardHeight}px`;
-        var cardImg = item.querySelector(".card-img");
-        if (cardImg) {
-          cardImg.style.height = `${imgHeightPercentage}%`;
-        }
-      });
-      console.log("열 갯수:", columns, "카드 높이:", cardHeight, "이미지 높이 비율:", imgHeightPercentage);
+      console.log("열 갯수:", columns);
     }
 
     window.addEventListener("resize", setColumnCount);
@@ -223,10 +208,6 @@
       if (aspectRatio > 1) {
         img.classList.add("landscape");
         console.log("Landscape 이미지 감지: ", img.src, "비율:", aspectRatio);
-        var cardExcerpt = img.closest(".grid-item").querySelector(".card-excerpt");
-        if (cardExcerpt) {
-          cardExcerpt.classList.add("no-clamp");
-        }
       }
     }
 
